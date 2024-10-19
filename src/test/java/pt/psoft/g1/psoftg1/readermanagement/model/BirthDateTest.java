@@ -32,6 +32,4 @@ public class BirthDateTest {
         BirthDate birthDate = new BirthDate(2000, 1, 1);
         assertEquals("2000-1-1", birthDate.toString());
     }
-
-    
 }

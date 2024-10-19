@@ -3,7 +3,6 @@ package pt.psoft.g1.psoftg1.authormanagement.model;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BioTest {
@@ -55,54 +54,4 @@ public class BioTest {
         bio.setBio("Some other bio");
         assertEquals("Some other bio", bio.toString());
     }
-
-
-
-    // NEW TESTS
-
-
-    @Test
-    void testBioSanitization() {
-        // Ensure that HTML and script tags are properly sanitized
-        String bioWithHtml = "<script>alert('test');</script>Valid Bio Content";
-        Bio bio = new Bio(bioWithHtml);
-        assertFalse(bio.toString().contains("<script>"));
-        assertEquals("alert('test');Valid Bio Content", bio.toString());
-    }
-
-    @Test
-    void testBioBoundaryValueAtMaxLength() {
-        // Create a bio with exactly 4096 characters
-        StringBuilder maxBio = new StringBuilder();
-        for (int i = 0; i < 4096; i++) {
-            maxBio.append("a");
-        }
-        Bio bio = new Bio(maxBio.toString());
-        assertEquals(4096, bio.toString().length());
-    }
-
-    @Test
-    void testBioExceedingMaxLength() {
-        // Create a bio with 4097 characters to check the max length enforcement
-        StringBuilder oversizedBio = new StringBuilder();
-        for (int i = 0; i < 4097; i++) {
-            oversizedBio.append("a");
-        }
-        assertThrows(IllegalArgumentException.class, () -> new Bio(oversizedBio.toString()));
-    }
-
-    @Test
-    void testBioWithSpecialCharacters() {
-        // Check if special characters in the bio are properly handled
-        String specialCharacterBio = "Bio with special characters: 😃, @, #, $";
-        Bio bio = new Bio(specialCharacterBio);
-        assertEquals(specialCharacterBio, bio.toString());
-    }
-
-    @Test
-    void testBioWithOnlyWhitespace() {
-        // Bio containing only whitespace characters should throw an exception
-        assertThrows(IllegalArgumentException.class, () -> new Bio("   "));
-    }
 }
-

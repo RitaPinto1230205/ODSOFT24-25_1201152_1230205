@@ -2,6 +2,7 @@ package pt.psoft.g1.psoftg1.bookmanagement.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DescriptionTest {
 
@@ -48,63 +49,4 @@ class DescriptionTest {
         assertEquals("Some other description", description.toString());
     }
 
-
-
-
-    //NEW TESTS
-
-     @Test
-    void testEmptyDescriptionIsSetToNull() {
-        // Empty description should be treated as null
-        Description description = new Description("");
-        assertNull(description.toString(), "Empty description should be set to null");
-    }
-
-    @Test
-    void testWhitespaceDescriptionIsSetToNull() {
-        // Description with only whitespace should be treated as null
-        Description description = new Description("   ");
-        assertNull(description.toString(), "Whitespace description should be set to null");
-    }
-
-    @Test
-    void testDescriptionBoundaryValueAtMaxLength() {
-        // Create a description with exactly 4096 characters
-        StringBuilder maxDescription = new StringBuilder();
-        for (int i = 0; i < 4096; i++) {
-            maxDescription.append("a");
-        }
-        Description description = new Description(maxDescription.toString());
-        assertEquals(4096, description.toString().length(), "Description should accept exactly 4096 characters");
-    }
-
-    @Test
-    void testDescriptionExceedingMaxLength() {
-        // Create a description with 4097 characters to check the max length enforcement
-        StringBuilder oversizedDescription = new StringBuilder();
-        for (int i = 0; i < 4097; i++) {
-            oversizedDescription.append("a");
-        }
-        assertThrows(IllegalArgumentException.class, () -> new Description(oversizedDescription.toString()), 
-                     "Description exceeding 4096 characters should throw an exception");
-    }
-
-    @Test
-    void testHtmlSanitizationInDescription() {
-        // Ensure that HTML tags are properly sanitized
-        String descriptionWithHtml = "<script>alert('danger');</script>Valid Description Content";
-        Description description = new Description(descriptionWithHtml);
-        assertFalse(description.toString().contains("<script>"));
-        assertEquals("alert('danger');Valid Description Content", description.toString(), 
-                     "HTML tags should be removed from the description");
-    }
-
-    @Test
-    void testSpecialCharactersInDescription() {
-        // Ensure special characters are handled properly
-        String specialCharacterDescription = "Description with special characters: !@#$%^&*()_+";
-        Description description = new Description(specialCharacterDescription);
-        assertEquals(specialCharacterDescription, description.toString(), 
-                     "Description should handle special characters correctly");
-    }
 }

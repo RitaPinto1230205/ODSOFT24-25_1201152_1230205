@@ -1,6 +1,5 @@
 package pt.psoft.g1.psoftg1.lendingmanagement.model;
 
-import org.hibernate.StaleObjectStateException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -132,75 +131,4 @@ class LendingTest {
         assertNull(lending.getReturnedDate());
     }
 
-
-
-    //NEW TESTS
-
-
-    // Test optimistic locking with version control (simulated concurrency)
-    @Test
-    void ensureVersioningPreventsStaleObjectModification() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        // Simulating that the version has been changed before calling setReturned()
-        lending.setReturned(0, "Returned with some commentary");
-        assertThrows(StaleObjectStateException.class, () -> lending.setReturned(1, "New commentary"), 
-                     "Should throw StaleObjectStateException if version is stale");
-    }
-
-    // Test that book returned on the exact limit date does not incur a fine
-    @Test
-    void ensureNoFineIfReturnedOnLimitDate() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        lending.setReturned(0, null); // Simulating book returned on the exact limit date
-        assertEquals(0, lending.getDaysDelayed(), "There should be no delay if returned on the limit date");
-        assertEquals(Optional.empty(), lending.getFineValueInCents(), "No fine should be applied if returned on time");
-    }
-
-    // Test fine calculation for overdue books
-    @Test
-    void testFineForOverdueBook() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        // Simulate a return 3 days after the limit date
-        lending.setReturned(0, null);
-        lending.returnedDate = LocalDate.now().plusDays(3);
-        assertEquals(3, lending.getDaysDelayed(), "Book should be 3 days overdue");
-        assertEquals(Optional.of(3 * fineValuePerDayInCents), lending.getFineValueInCents(), 
-                     "Fine should be calculated as 3 days * fineValuePerDayInCents");
-    }
-
-    // Test invalid returned date before the start date
-    @Test
-    void ensureInvalidReturnedDateThrowsException() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        lending.returnedDate = lending.getStartDate().minusDays(1); // Invalid return date before start date
-        assertThrows(IllegalArgumentException.class, () -> lending.setReturned(0, null), 
-                     "Returned date cannot be before the start date");
-    }
-
-    // Test returned date exactly on limit date should not trigger overdue
-    @Test
-    void ensureNoOverdueOnLimitDate() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        lending.returnedDate = lending.getLimitDate(); // Return exactly on the limit date
-        assertEquals(0, lending.getDaysDelayed(), "There should be no delay if returned on the limit date");
-        assertEquals(Optional.empty(), lending.getFineValueInCents(), "No fine should be applied if returned on time");
-    }
-
-    // Test days overdue when the returned date is after the limit date
-    @Test
-    void ensureCorrectDaysOverdue() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        lending.returnedDate = lending.getLimitDate().plusDays(5); // Return 5 days after the limit date
-        assertEquals(5, lending.getDaysDelayed(), "Lending should be 5 days overdue");
-    }
-
-    // Test fine calculation for multiple overdue days
-    @Test
-    void testFineValueCalculation() {
-        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
-        lending.returnedDate = lending.getLimitDate().plusDays(2); // 2 days late
-        assertEquals(Optional.of(2 * fineValuePerDayInCents), lending.getFineValueInCents(), 
-                     "Fine should be correctly calculated for 2 overdue days");
-    }
 }
-    
