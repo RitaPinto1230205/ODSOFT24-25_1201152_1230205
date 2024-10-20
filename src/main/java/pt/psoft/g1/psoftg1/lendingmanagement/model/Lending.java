@@ -89,7 +89,8 @@ public class Lending {
      * check if a book has been returned.
      * */
     @Temporal(TemporalType.DATE)
-    @Getter LocalDate returnedDate;
+    @Getter
+    private LocalDate returnedDate;
 
     // optimistic-lock
     /**
