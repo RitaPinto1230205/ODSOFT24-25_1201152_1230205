@@ -1,0 +1,17 @@
+{
+  "name": "odsoft24-25_1201152_1230205",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tests": "npm run test:dev && npm run test:api",
+    "test:dev": "mocha tests/unit/**/*.Test.js",
+    "test:api": "mocha tests/api/**/*.Test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RitaPinto1230205/ODSOFT24-25_1201152_1230205.git"
+  },
+  "private": true
+}
