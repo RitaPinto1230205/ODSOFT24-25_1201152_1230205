@@ -1,4 +1,32 @@
-node {
+
+pipeline {
+    agent any
+
+    triggers {
+    githubPush()
+    }
+
+    stages {
+        stage( 'Hello'){
+            steps{
+            echo "I'm running the pipeline as defined in the pipeline file."
+            }
+        }
+    }
+
+    post {
+        success{
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failure'
+        }
+    }
+}
+
+
+
+/*node {
 
     // Define versions of Maven, Gradle, and Node.js
     env.MAVEN_VERSION = '3.8.1'
@@ -168,5 +196,4 @@ node {
         }
     }
 
-}
-
+}*/
