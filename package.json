@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tests": "npm run test:dev && npm run test:api",
-    "test:dev": "mocha tests/unit/**/*.Test.js",
-    "test:api": "mocha tests/api/**/*.Test.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
