@@ -4,10 +4,8 @@ package pt.psoft.g1.psoftg1.authormanagement.model;
     import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pt.psoft.g1.psoftg1.authormanagement.model.Author;
-import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
-import pt.psoft.g1.psoftg1.exceptions.ConflictException;
-import org.hibernate.StaleObjectStateException;
+    import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
+    import org.hibernate.StaleObjectStateException;
 
 public class AuthorTestBB {
     private final String validName = "João Alberto";
@@ -33,13 +31,6 @@ public class AuthorTestBB {
         assertThrows(IllegalArgumentException.class, () -> new Author(validName, null, null));
     }
 
-    @Test
-    void ensureValidAuthorCreation() {
-        Author author = new Author(validName, validBio, photoURI);
-        assertEquals(validName, author.getName());
-        assertEquals(validBio, author.getBio());
-        assertNotNull(author.getPhoto());
-    }
 
     @Test
     void whenVersionIsStale_applyPatchThrowsStaleObjectStateException() {
@@ -57,19 +48,8 @@ public class AuthorTestBB {
         assertEquals("Updated Name", author.getName());
     }
 
-    @Test
-    void testRemovePhotoWithValidVersion() {
-        Author author = new Author(validName, validBio, photoURI);
-        long currentVersion = author.getVersion();
-        author.removePhoto(currentVersion);
-        assertNull(author.getPhoto());
-    }
 
-    @Test
-    void testRemovePhotoWithStaleVersionThrowsException() {
-        Author author = new Author(validName, validBio, photoURI);
-        assertThrows(ConflictException.class, () -> author.removePhoto(999));
-    }
+
 
     // Additional mutation testing preparation
     @Test

@@ -58,4 +58,41 @@ class BookTest {
         assertDoesNotThrow(() -> new Book(validIsbn, validTitle, null, validGenre, authors, null));
     }
 
+
+    //NEW TESTS
+
+
+    @Test
+    void testDuplicateAuthorsAllowed() {
+        authors.add(validAuthor1);
+        authors.add(validAuthor1);
+        assertDoesNotThrow(() -> new Book(validIsbn, validTitle, null, validGenre, authors, null), 
+                           "Book creation should allow duplicate authors");
+    }
+
+    @Test
+    void testMaxLengthTitle() {
+        authors.add(validAuthor1);
+        StringBuilder longTitle = new StringBuilder();
+        for (int i = 0; i < 128; i++) {
+            longTitle.append("a");
+        }
+        assertDoesNotThrow(() -> new Book(validIsbn, longTitle.toString(), null, validGenre, authors, null), 
+                           "Title at maximum length should be accepted");
+    }
+
+    @Test
+    void testExceedingMaxLengthTitle() {
+        authors.add(validAuthor1);
+        StringBuilder longTitle = new StringBuilder();
+        for (int i = 0; i < 129; i++) {
+            longTitle.append("a");
+        }
+        assertThrows(IllegalArgumentException.class, () -> new Book(validIsbn, longTitle.toString(), null, validGenre, authors, null), 
+                     "Title exceeding maximum length should throw an exception");
+    }
+
+
 }
+
+
