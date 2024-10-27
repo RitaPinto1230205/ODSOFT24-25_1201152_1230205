@@ -31,6 +31,13 @@ public class AuthorTestBB {
         assertThrows(IllegalArgumentException.class, () -> new Author(validName, null, null));
     }
 
+    @Test
+    void ensureValidAuthorCreation() {
+        Author author = new Author(validName, validBio, null);
+        assertEquals(validName, author.getName());
+        assertEquals(validBio, author.getBio());
+        assertNotNull(author.getPhoto());
+    }
 
     @Test
     void whenVersionIsStale_applyPatchThrowsStaleObjectStateException() {
@@ -48,8 +55,19 @@ public class AuthorTestBB {
         assertEquals("Updated Name", author.getName());
     }
 
+    @Test
+    void testRemovePhotoWithValidVersion() {
+        Author author = new Author(validName, validBio, null);
+        long currentVersion = author.getVersion();
+        author.removePhoto(currentVersion);
+        assertNull(author.getPhoto());
+    }
 
-
+    @Test
+    void testRemovePhotoWithStaleVersionThrowsException() {
+        Author author = new Author(validName, validBio,null);
+        assertThrows(ConflictException.class, () -> author.removePhoto(999));
+    }
 
     // Additional mutation testing preparation
     @Test
