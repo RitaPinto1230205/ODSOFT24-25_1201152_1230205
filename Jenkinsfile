@@ -7,21 +7,27 @@ pipeline {
     }
 
     stages {
-        stage( 'Hello'){
-            steps{
-            echo "I'm running the pipeline as defined in the pipeline file."
+         stage('Checkout') {
+            steps {
+                checkout scm
             }
         }
-    }
 
-    post {
-        success{
-            echo 'Pipeline completed successfully'
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
         }
-        failure {
-            echo 'Pipeline failure'
+
+        stage('Static Code Analysis') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
         }
+
+
     }
+        
 }
 
 
