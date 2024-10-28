@@ -13,6 +13,19 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+        }
+
+
     }
         
 }
