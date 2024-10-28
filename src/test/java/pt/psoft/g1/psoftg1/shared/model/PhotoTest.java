@@ -22,4 +22,36 @@ class PhotoTest {
         Photo photo = new Photo(Paths.get("photoTest.jpg"));
         assertEquals(photo.getPhotoFile(), "photoTest.jpg");
     }
+
+    //New unit tests using AAA
+
+    @Test
+    void ensureAbsoluteFilePathIsConvertedToString() {
+        // Arrange
+        Path absolutePath = Paths.get("uploads-psoft-g1/photoTest.jpg").toAbsolutePath();
+
+        // Act
+        Photo photo = new Photo(absolutePath);
+
+        // Assert
+        assertEquals(absolutePath.toString(), photo.getPhotoFile());
+    }
+
+    @Test
+    public void ensurePhotoFileStoresNormalizedPath() {
+        // Arrange
+        Path unnormalizedPath = Paths.get("./uploads-psoft-g1/../uploads-psoft-g1/photoTest.jpg");
+        Path expectedNormalizedPath = unnormalizedPath.normalize();
+
+        // Act
+        Photo photo = new Photo(unnormalizedPath);
+        String storedPhotoPath = photo.getPhotoFile();
+
+        // Assert
+        Path storedPathNormalized = Paths.get(storedPhotoPath).normalize();
+        assertEquals(expectedNormalizedPath.toString(), storedPathNormalized.toString());
+    }
+
+
+
 }
