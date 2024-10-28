@@ -41,4 +41,38 @@ class NameTest {
         name.setName("Some other name");
         assertEquals("Some other name", name.toString());
     }
+
+    //New unit tests using AAA
+    @Test
+    void ensureNameCannotBeChangedToInvalid() {
+        // Arrange
+        String initialName = "ValidName";
+        String invalidNewName = "Invalid!";
+        Name name = new Name(initialName);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> name.setName(invalidNewName));
+    }
+
+    @Test
+    void ensureNameCannotBeChangedToBlank() {
+        // Arrange
+        String initialName = "ValidName";
+        String blankNewName = " ";
+        Name name = new Name(initialName);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> name.setName(blankNewName));
+    }
+
+    @Test
+    void ensureNameCannotBeChangedToNull() {
+        // Arrange
+        String initialName = "ValidName";
+        String nullNewName = null;
+        Name name = new Name(initialName);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> name.setName(nullNewName));
+    }
 }
