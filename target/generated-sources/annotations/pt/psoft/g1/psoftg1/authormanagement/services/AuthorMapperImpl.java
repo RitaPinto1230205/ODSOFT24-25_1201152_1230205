@@ -6,7 +6,7 @@ import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-28T01:23:54+0000",
+    date = "2024-10-28T01:36:38+0000",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Amazon.com Inc.)"
 )
 @Component

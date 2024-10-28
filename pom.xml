@@ -149,12 +149,30 @@
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
+                        <include>**/*IntegrationTest.java</include>
                     </includes>
-                    <excludes>
-                        <exclude>**/IntegrationTest.java</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>  <!-- Executa testes de integração -->
+                            <goal>verify</goal>             <!-- Verifica resultados dos testes de integração -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>  <!-- Inclui testes de integração -->
+                    </includes>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
