@@ -7,21 +7,14 @@ pipeline {
     }
 
     stages {
-        stage( 'Hello'){
-            steps{
-            echo "I'm running the pipeline as defined in the pipeline file."
+         stage('Checkout') {
+            steps {
+                checkout scm
             }
         }
-    }
 
-    post {
-        success{
-            echo 'Pipeline completed successfully'
-        }
-        failure {
-            echo 'Pipeline failure'
-        }
     }
+        
 }
 
 
