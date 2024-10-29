@@ -35,7 +35,7 @@ public class AuthorTestBB {
 
     @Test
     void ensureValidAuthorCreation() {
-        Author author = new Author(validName, validBio, photoURI);
+        Author author = new Author(validName, validBio, null);
         assertEquals(validName, author.getName());
         assertEquals(validBio, author.getBio());
         assertNotNull(author.getPhoto());
@@ -59,7 +59,7 @@ public class AuthorTestBB {
 
     @Test
     void testRemovePhotoWithValidVersion() {
-        Author author = new Author(validName, validBio, photoURI);
+        Author author = new Author(validName, validBio, null);
         long currentVersion = author.getVersion();
         author.removePhoto(currentVersion);
         assertNull(author.getPhoto());
@@ -67,7 +67,7 @@ public class AuthorTestBB {
 
     @Test
     void testRemovePhotoWithStaleVersionThrowsException() {
-        Author author = new Author(validName, validBio, photoURI);
+        Author author = new Author(validName, validBio,null);
         assertThrows(ConflictException.class, () -> author.removePhoto(999));
     }
 

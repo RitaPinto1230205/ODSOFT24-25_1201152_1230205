@@ -1,0 +1,21 @@
+{
+  "name": "odsoft24-25_1201152_1230205",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RitaPinto1230205/ODSOFT24-25_1201152_1230205.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.11.0",
+    "typescript-eslint": "^8.11.0"
+  }
+}
