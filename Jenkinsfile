@@ -202,4 +202,20 @@ pipeline {
         }
     }
 
+     stage('levanta a app no servidor == packaging n é preciso usar dockers ') {
+        dir(env.PROJECT_DIR){
+        if (fileExists('pom.xml')) {
+            if (isUnix()) {
+               java -jar psoft-g1-0.0.1-SNAPSHOT.jar 
+
+            } else {
+              java -jar psoft-g1-0.0.1-SNAPSHOT.jar 
+
+            }
+        } else {
+            echo 'pom.xml not found, skipping Maven build step.'
+        }
+        }
+    }
+
 }*/
