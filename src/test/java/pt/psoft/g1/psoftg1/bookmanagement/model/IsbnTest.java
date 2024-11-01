@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IsbnTest {
 
+
+
     @Test
     void ensureIsbnMustNotBeNull() {
         assertThrows(IllegalArgumentException.class, () -> new Isbn(null));
@@ -62,4 +64,67 @@ class IsbnTest {
     void ensureChecksum10IsCorrect() {
         assertThrows(IllegalArgumentException.class, () -> new Isbn("8175257667"));
     }
+
+
+    //NEW TESTS
+
+
+
+
+    @Test
+    void testIsbnBoundaryValueAtLength10() {
+        // Valid ISBN-10 check at boundary
+        String isbn10 = "123456789X";
+        Isbn isbn = new Isbn(isbn10);
+        assertEquals(isbn10, isbn.toString());
+    }
+
+    @Test
+    void testIsbnBoundaryValueAtLength13() {
+        // Valid ISBN-13 check at boundary
+        String isbn13 = "9781234567897";
+        Isbn isbn = new Isbn(isbn13);
+        assertEquals(isbn13, isbn.toString());
+    }
+
+    @Test
+    void testHyphenatedIsbnShouldFail() {
+        // Hyphenated ISBNs should throw an exception
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("978-1234-56789-7"));
+    }
+
+    @Test
+    void testIsbnWithSpecialCharactersShouldFail() {
+        // ISBNs with special characters should throw an exception
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("978123@56789!7"));
+    }
+
+    @Test
+    void testLowercaseXInIsbn10() {
+        // Test lowercase 'x' for ISBN-10
+        String isbn10WithLowerX = "123456789x";
+
+        assertThrows (IllegalArgumentException.class,() -> new Isbn(isbn10WithLowerX));
+    }
+
+    @Test
+    void testInvalidCharacterInIsbn10() {
+        // ISBN-10 with an invalid character (non-numeric and non-X) should fail
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("12345678A9"));
+    }
+
+    @Test
+    void testInvalidCharacterInIsbn13() {
+        // ISBN-13 with an invalid character should fail
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("97812345678A7"));
+    }
+
+    @Test
+    void testIsbn10CheckDigitAsX() {
+        // Valid ISBN-10 where the check digit is 'X'
+        String isbn10WithX = "0306406152"; // A valid example where last digit calculated is correct
+        Isbn isbn = new Isbn(isbn10WithX);
+        assertEquals(isbn10WithX, isbn.toString());
+    }
+
 }

@@ -51,4 +51,41 @@ class LendingNumberTest {
         assertThrows(IllegalArgumentException.class, () -> new LendingNumber(LocalDate.now().getYear()+1,1));
     }
 
+    //NEW TESTS
+
+      // Boundary Value Test for Year
+      @Test
+      void ensureYearAtBoundaryIsValid() {
+          final LendingNumber ln = new LendingNumber(1970, 1);
+          assertEquals("1970/1", ln.toString(), "LendingNumber should be valid for the boundary year 1970");
+      }
+  
+      // Test for a very large sequential number
+      @Test
+      void ensureLargeSequentialNumberIsValid() {
+          final LendingNumber ln = new LendingNumber(2024, Integer.MAX_VALUE);
+          assertEquals("2024/" + Integer.MAX_VALUE, ln.toString(), "LendingNumber should accept very large sequential values");
+      }
+  
+      // Test for leap year (optional depending on the business logic of your system)
+      @Test
+      void ensureLeapYearIsValid() {
+          final LendingNumber ln = new LendingNumber(2024, 1);  // 2024 is a leap year
+          assertEquals("2024/1", ln.toString(), "LendingNumber should correctly handle leap years");
+      }
+  
+      // Test for Invalid Lending Number String Parsing (Wrong Format)
+      @Test
+      void ensureLendingNumberParsingWithWrongFormatThrowsException() {
+          assertThrows(IllegalArgumentException.class, () -> new LendingNumber("20/12345"), 
+                       "LendingNumber should throw an exception for incorrect year format");
+      }
+  
+      // Test for Negative Year (which should be invalid)
+      @Test
+      void ensureNegativeYearThrowsException() {
+          assertThrows(IllegalArgumentException.class, () -> new LendingNumber(-2024, 1), 
+                       "LendingNumber should not accept negative years");
+      }
+
 }

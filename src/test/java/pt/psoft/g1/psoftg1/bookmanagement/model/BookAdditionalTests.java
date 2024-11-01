@@ -1,15 +1,18 @@
 package pt.psoft.g1.psoftg1.bookmanagement.model;
 
+import org.hibernate.StaleObjectStateException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
+import pt.psoft.g1.psoftg1.bookmanagement.services.UpdateBookRequest;
+import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BookTest {
+class BookAdditionalTest {
     private final String validIsbn = "9782826012092";
     private final String validTitle = "Encantos de contar";
     private final Author validAuthor1 = new Author("João Alberto", "O João Alberto nasceu em Chaves e foi pedreiro a maior parte da sua vida.", null);

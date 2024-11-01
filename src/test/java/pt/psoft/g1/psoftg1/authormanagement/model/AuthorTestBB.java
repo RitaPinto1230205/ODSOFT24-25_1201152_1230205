@@ -4,10 +4,8 @@ package pt.psoft.g1.psoftg1.authormanagement.model;
     import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pt.psoft.g1.psoftg1.authormanagement.model.Author;
-import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
-import pt.psoft.g1.psoftg1.exceptions.ConflictException;
-import org.hibernate.StaleObjectStateException;
+    import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
+    import org.hibernate.StaleObjectStateException;
 
 public class AuthorTestBB {
     private final String validName = "João Alberto";

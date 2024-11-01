@@ -1,7 +1,6 @@
 package pt.psoft.g1.psoftg1.shared.model;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

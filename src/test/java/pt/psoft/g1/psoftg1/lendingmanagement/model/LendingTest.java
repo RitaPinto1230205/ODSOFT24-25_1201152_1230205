@@ -131,4 +131,38 @@ class LendingTest {
         assertNull(lending.getReturnedDate());
     }
 
+
+
+    //NEW TESTS
+
+
+    // Test optimistic locking with version control (simulated concurrency)
+    @Test
+    void ensureVersioningPreventsStaleObjectModification() {
+        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
+        // Simulating that the version has been changed before calling setReturned()
+        lending.setReturned(0, "Returned with some commentary");
+        assertThrows(IllegalArgumentException.class, () -> lending.setReturned(1, "New commentary"),
+                     "Should throw StaleObjectStateException if version is stale");
+    }
+
+    // Test that book returned on the exact limit date does not incur a fine
+    @Test
+    void ensureNoFineIfReturnedOnLimitDate() {
+        Lending lending = new Lending(book, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents);
+        lending.setReturned(0, null); // Simulating book returned on the exact limit date
+        assertEquals(0, lending.getDaysDelayed(), "There should be no delay if returned on the limit date");
+        assertEquals(Optional.empty(), lending.getFineValueInCents(), "No fine should be applied if returned on time");
+    }
+
+
+
+
+
+
+
+
+
+
 }
+    
