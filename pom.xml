@@ -161,14 +161,14 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>integration-test</goal>  <!-- Executa testes de integração -->
-                            <goal>verify</goal>             <!-- Verifica resultados dos testes de integração -->
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
                     <includes>
-                        <include>**/*IT.java</include>  <!-- Inclui testes de integração -->
+                        <include>**/*IT.java</include>
                     </includes>
                 </configuration>
             </plugin>
