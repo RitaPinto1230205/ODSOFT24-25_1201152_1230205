@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
     import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
     import org.hibernate.StaleObjectStateException;
+    import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 
 public class AuthorTestBB {
     private final String validName = "João Alberto";
