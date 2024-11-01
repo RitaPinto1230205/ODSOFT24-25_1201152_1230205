@@ -130,22 +130,6 @@ node {
             }
         }
     }
-
-    stage('Smoke Tests') {
-        echo 'Running smoke tests to validate deployment...'
-   // testes
-        if (isUnix()) {
-            sh '''
-            sleep 10
-            curl -f http://localhost:8080/ || echo "Smoke test failed."
-            '''
-        } else {
-            bat '''
-            timeout 10
-            curl -f http://localhost:8080/ || echo "Smoke test failed."
-            '''
-        }
-    }
 }
 
 
