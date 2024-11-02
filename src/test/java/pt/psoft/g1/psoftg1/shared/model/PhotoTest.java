@@ -51,6 +51,17 @@ class PhotoTest {
         assertEquals(expectedNormalizedPath.toString(), storedPathNormalized.toString());
     }
 
+    @Test
+    void ensureDefaultConstructorInitializesObject() {
+        Photo photo = new Photo();
+        assertNotNull(photo);
+        assertNull(photo.getPhotoFile()); // Initially null as per default constructor
+    }
 
-
+    @Test
+    void ensurePhotoFileCanBeSetAfterCreation() {
+        Photo photo = new Photo(Paths.get("initial.jpg"));
+        photo.setPhotoFile("updated.jpg");
+        assertEquals("updated.jpg", photo.getPhotoFile());
+    }
 }

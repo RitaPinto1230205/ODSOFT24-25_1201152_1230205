@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.nio.file.AccessDeniedException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
@@ -35,9 +36,6 @@ public class BirthDateTest {
     }
 
 
-
-
-
     // New tests...
 
     @ParameterizedTest
@@ -52,7 +50,6 @@ public class BirthDateTest {
     }
 
 
-
     @Test
     void ensureLeapYearDateIsValid() {
         assertDoesNotThrow(() -> new BirthDate(2000, 2, 29));
@@ -62,7 +59,6 @@ public class BirthDateTest {
     void ensureNonLeapYearDateIsInvalid() {
         assertThrows(DateTimeException.class, () -> new BirthDate(2001, 2, 29));
     }
-
 
 
     @Test
@@ -85,7 +81,7 @@ public class BirthDateTest {
     // Mutation tests
     @Test
     void ensureNullStringDateThrowsException() {
-        assertThrows(NullPointerException.class, () -> new BirthDate((String)null));
+        assertThrows(NullPointerException.class, () -> new BirthDate((String) null));
     }
 
     @Test
@@ -112,6 +108,58 @@ public class BirthDateTest {
     void ensureToStringFormatIsConsistentForVariousDates(int year, int month, int day, String expected) {
         BirthDate birthDate = new BirthDate(year, month, day);
         assertEquals(expected, birthDate.toString());
+    }
+
+    @Test
+    void ensureInvalidYearInStringThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new BirthDate("two-thousand-01"));
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "2000,1,1,2000-1-1",
+            "2020,12,31,2020-12-31",
+            "1990,7,5,1990-7-5"
+    })
+    void ensureStringRepresentationIsConsistent(int year, int month, int day, String expected) {
+        BirthDate birthDate = new BirthDate(year, month, day);
+        assertEquals(expected, birthDate.toString(), "A representação em string deve estar correta");
+    }
+
+    @Test
+    void ensureValidBirthDateRange() {
+        LocalDate today = LocalDate.now();
+        BirthDate birthDate = new BirthDate(today.getYear() - 18, today.getMonthValue(), today.getDayOfMonth());
+        assertDoesNotThrow(() -> birthDate);
+        assertEquals(today.getYear() - 18, birthDate.birthDate.getYear(), "Birth date should be correctly assigned.");
+    }
+
+    @Test
+    void ensureValidDateWithLeadingZerosInString() {
+        assertDoesNotThrow(() -> new BirthDate("2000-01-01"), "Leading zeros should not affect date creation.");
+    }
+
+    @Test
+    void ensureNonNumericStringThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new BirthDate("abc-def-ghij"),
+                "Non-numeric string should throw an IllegalArgumentException.");
+    }
+
+    @Test
+    void ensureInequalityWithDifferentDate() {
+        BirthDate date1 = new BirthDate(2000, 1, 1);
+        BirthDate date2 = new BirthDate(2001, 1, 1);
+        assertNotEquals(date1, date2, "BirthDates with different dates should not be equal.");
+    }
+
+    @Test
+    void ensureToStringConsistencyWithDifferentFormats() {
+        BirthDate birthDate1 = new BirthDate(2000, 1, 1);
+        assertEquals("2000-1-1", birthDate1.toString(), "String representation should match expected format.");
+
+        BirthDate birthDate2 = new BirthDate("2000-01-01");
+        assertEquals("2000-1-1", birthDate2.toString(), "String representation from valid string should match expected format.");
     }
 }
     

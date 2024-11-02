@@ -108,4 +108,48 @@ public class PhoneNumberTest {
         assertNotEquals(number1, notAPhoneNumber);
         assertNotEquals(number1, null);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "512345678", // Inicia com 5
+            "612345678", // Inicia com 6
+            "712345678", // Inicia com 7
+            "812345678", // Inicia com 8
+    })
+    void ensurePhoneNumbersStartingWithInvalidDigitsAreRejected(String invalidNumber) {
+        assertThrows(IllegalArgumentException.class, () -> new PhoneNumber(invalidNumber));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "9 12345678", // Espaço no início
+            "912 345678", // Espaço no meio
+            "912345 678", // Espaço no final
+    })
+    void ensurePhoneNumbersWithSpacesAreRejected(String invalidNumber) {
+        assertThrows(IllegalArgumentException.class, () -> new PhoneNumber(invalidNumber));
+    }
+
+    @Test
+    void ensureToStringReturnsCorrectValue() {
+        PhoneNumber number = new PhoneNumber("912345678");
+        assertEquals("912345678", number.toString());
+    }
+
+    @Test
+    void ensureDefaultConstructorWorks() {
+        PhoneNumber number = new PhoneNumber();
+        assertNotNull(number);
+        assertNull(number.phoneNumber); // O número deve ser nulo inicialmente
+    }
+
+    @Test
+    void ensurePhoneNumberComparisonWithNonPhoneNumber() {
+        PhoneNumber number1 = new PhoneNumber("912345678");
+        Object notAPhoneNumber = "912345678";
+
+        assertNotEquals(number1, notAPhoneNumber);
+        assertNotEquals(number1, null);
+    }
+
 }

@@ -53,7 +53,7 @@ class DescriptionTest {
 
     //NEW TESTS
 
-     @Test
+    @Test
     void testEmptyDescriptionIsSetToNull() {
         // Empty description should be treated as null
         Description description = new Description("");
@@ -85,8 +85,8 @@ class DescriptionTest {
         for (int i = 0; i < 4097; i++) {
             oversizedDescription.append("a");
         }
-        assertThrows(IllegalArgumentException.class, () -> new Description(oversizedDescription.toString()), 
-                     "Description exceeding 4096 characters should throw an exception");
+        assertThrows(IllegalArgumentException.class, () -> new Description(oversizedDescription.toString()),
+                "Description exceeding 4096 characters should throw an exception");
     }
 
     @Test
@@ -96,7 +96,7 @@ class DescriptionTest {
         Description description = new Description(descriptionWithHtml);
         assertFalse(description.toString().contains("<script>"));
         assertEquals("Valid Description Content", description.toString(),
-                     "HTML tags should be removed from the description");
+                "HTML tags should be removed from the description");
     }
 
     @Test
@@ -105,6 +105,58 @@ class DescriptionTest {
         String specialCharacterDescription = "Description with special characters: !@#$%^&*()_+";
         Description description = new Description(specialCharacterDescription);
         assertNotEquals(specialCharacterDescription, description.toString(),
-                     "Description should handle special characters correctly");
+                "Description should handle special characters correctly");
+    }
+
+     @Test
+    void testSetDescriptionToNull() {
+        Description description = new Description("Initial description");
+        description.setDescription(null);
+        assertNull(description.toString(), "Description should be null when set to null");
+    }
+
+     @Test
+    void testSetSameDescription() {
+        Description description = new Description("Same description");
+        description.setDescription("Same description");
+        assertEquals("Same description", description.toString(), "Description should remain unchanged if the same value is set");
+    }
+
+     @Test
+    void testChangeDescription() {
+        Description description = new Description("Old description");
+        description.setDescription("New description");
+        assertEquals("New description", description.toString(), "Description should be updated correctly");
+    }
+
+     @Test
+    void testSetDescriptionNullDirectly() {
+        Description description = new Description("Initial description");
+        description.setDescription(null);
+        // Verifica se o campo realmente é nulo
+        assertNull(description.description, "Description internal field should be null when set to null");
+    }
+
+    @Test
+    void testSetDescriptionWithLengthExceedingMax() {
+        String longDescription = new String(new char[4097]); // 4097 caracteres
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            new Description(longDescription);
+        });
+        assertEquals("Description has a maximum of 4096 characters", thrown.getMessage());
+    }
+
+     @Test
+    void testSetValidDescription() {
+        Description description = new Description("Valid description");
+        assertEquals("Valid description", description.description, "Internal description should be valid after setting");
+    }
+
+     @Test
+    void testSanitizeHtmlCall() {
+        String unsafeDescription = "<script>alert('XSS');</script>Some safe content";
+        Description description = new Description(unsafeDescription);
+        // Assume que StringUtilsCustom.sanitizeHtml foi testado separadamente
+        assertFalse(description.description.contains("<script>"), "Sanitized description should not contain <script> tags");
     }
 }

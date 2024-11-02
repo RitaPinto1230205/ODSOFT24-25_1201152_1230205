@@ -1,16 +1,19 @@
 package pt.psoft.g1.psoftg1.authormanagement.model;
 
 import org.junit.jupiter.api.Test;
+import pt.psoft.g1.psoftg1.shared.model.StringUtilsCustom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BioTest {
 
+    // Bio cannot be null (Black-Box)
     @Test
     void ensureBioMustNotBeNull() {
         assertThrows(IllegalArgumentException.class, () -> new Bio(null));
     }
 
+    // Bio cannot be blank (Black-Box)
     @Test
     void ensureBioMustNotBeBlank() {
         assertThrows(IllegalArgumentException.class, () -> new Bio(""));
@@ -20,6 +23,7 @@ public class BioTest {
     /**
      * Text from <a href="https://www.lipsum.com/">Lorem Ipsum</a> generator.
      */
+    // Bio must not exceed maximum length (Black-Box)
     @Test
     void ensureBioMustNotBeOversize() {
         assertThrows(IllegalArgumentException.class, () -> new Bio("\n" +
@@ -47,6 +51,7 @@ public class BioTest {
         assertEquals("Some bio", bio.toString());
     }
 
+    //Bio can be changed correctly (Black-Box)
     @Test
     void ensureBioIsChanged() {
         final var bio = new Bio("Some bio");

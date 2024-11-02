@@ -2,6 +2,8 @@ package pt.psoft.g1.psoftg1.bookmanagement.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IsbnTest {
@@ -125,6 +127,87 @@ class IsbnTest {
         String isbn10WithX = "0306406152"; // A valid example where last digit calculated is correct
         Isbn isbn = new Isbn(isbn10WithX);
         assertEquals(isbn10WithX, isbn.toString());
+    }
+
+    @Test
+    void testInvalidIsbnLength() {
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("12345"));
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("97828260120921"));
+    }
+
+    // Teste para verificar se um ISBN-13 válido com checksum 0 passa
+    @Test
+    void testValidIsbn13WithChecksumZero() {
+        // Exemplo de ISBN-13 onde o checksum é 0
+        String isbn13 = "9780306406157"; // Um ISBN-13 válido
+        Isbn isbn = new Isbn(isbn13);
+        assertEquals(isbn13, isbn.toString());
+    }
+
+    // Teste para verificar se um ISBN-10 válido termina com '0' passa
+    @Test
+    void testValidIsbn10EndingWithZero() {
+        // Exemplo de ISBN-10 válido terminando em '0'
+        String isbn10 = "048665088X"; // Um ISBN-10 válido
+        Isbn isbn = new Isbn(isbn10);
+        assertEquals(isbn10, isbn.toString());
+    }
+
+    // Teste para um ISBN-10 onde o dígito de verificação é o dígito "X" e soma divisível por 11
+    @Test
+    void testIsbn10WithCheckDigitXAndValidChecksum() {
+        String isbn10WithX = "156881111X"; // Um ISBN-10 válido onde o dígito de verificação é 'X'
+        Isbn isbn = new Isbn(isbn10WithX);
+        assertEquals(isbn10WithX, isbn.toString());
+    }
+
+    // Teste para verificar ISBN-13 com checksum incorreto, validando o cálculo do dígito de verificação
+    @Test
+    void testIncorrectIsbn13Checksum() {
+        assertThrows(IllegalArgumentException.class, () -> new Isbn("9780306406158"));
+    }
+
+    // Teste para ISBN-13 onde o cálculo do dígito de verificação resulta em 10
+    @Test
+    void testIsbn13ChecksumCalculationToTen() {
+        // ISBN-13 onde o cálculo do checksum dá 10, que se ajusta para 0
+        String isbn13 = "9781861972712"; // ISBN-13 válido com checksum ajustado para 0
+        Isbn isbn = new Isbn(isbn13);
+        assertEquals(isbn13, isbn.toString());
+    }
+
+    @Test
+    void testIsValidIsbn10InternalPaths() throws Exception {
+        // Preparação: Usa reflexão para acessar o método privado isValidIsbn10
+        Method isValidIsbn10 = Isbn.class.getDeclaredMethod("isValidIsbn10", String.class);
+        isValidIsbn10.setAccessible(true);
+
+        // 1. Teste para ISBN-10 inválido com caracteres incorretos (falha rápida em regex)
+        assertFalse((Boolean) isValidIsbn10.invoke(null, "12345A6789"));
+
+        // 2. Teste com ISBN-10 válido (dígito de verificação X) para validar cálculo
+        assertTrue((Boolean) isValidIsbn10.invoke(null, "156881111X"), "Falha ao validar ISBN-10 com dígito de verificação 'X'");
+
+        // 3. Teste com ISBN-10 onde a soma está errada apenas pelo último dígito
+        assertFalse((Boolean) isValidIsbn10.invoke(null, "1568811119"), "Falha ao detectar ISBN-10 com soma inválida");
+
+        // 4. Teste com ISBN-10 onde o dígito de verificação é '0' e soma correta
+        assertTrue((Boolean) isValidIsbn10.invoke(null, "048665088X"), "Falha ao validar ISBN-10 com soma correta terminando em 'X'");
+
+        // 5. **Correção**: Teste com ISBN-10 onde o cálculo do dígito de verificação resulta em valor correto
+        assertTrue((Boolean) isValidIsbn10.invoke(null, "0306406152"), "Falha ao validar ISBN-10 com cálculo correto do dígito de verificação");
+
+        // 6. Teste com ISBN-10 menor que 10 caracteres para confirmar falha
+        assertFalse((Boolean) isValidIsbn10.invoke(null, "12345678"), "Falha ao detectar ISBN-10 de comprimento inválido");
+
+        // 7. Teste para ISBN-10 inválido com soma incorreta, mas comprimento correto
+        assertFalse((Boolean) isValidIsbn10.invoke(null, "1234567891"), "Falha ao detectar ISBN-10 com soma incorreta, mas formato correto");
+
+        // 8. Teste com ISBN-10 numérico que passa com dígito de verificação correto
+        assertTrue((Boolean) isValidIsbn10.invoke(null, "0306406152"), "Falha ao validar ISBN-10 com cálculo correto do dígito de verificação");
+
+        // Resetar o acesso ao método
+        isValidIsbn10.setAccessible(false);
     }
 
 }

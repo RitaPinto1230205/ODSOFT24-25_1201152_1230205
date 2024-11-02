@@ -155,13 +155,16 @@ class LendingTest {
         assertEquals(Optional.empty(), lending.getFineValueInCents(), "No fine should be applied if returned on time");
     }
 
+    @Test
+    void testConstructorWithNullValues() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Lending(null, readerDetails, 1, lendingDurationInDays, fineValuePerDayInCents),
+                "Construtor deveria lançar exceção para livro nulo");
 
-
-
-
-
-
-
+        assertThrows(IllegalArgumentException.class,
+                () -> new Lending(book, null, 1, lendingDurationInDays, fineValuePerDayInCents),
+                "Construtor deveria lançar exceção para leitor nulo");
+    }
 
 
 }

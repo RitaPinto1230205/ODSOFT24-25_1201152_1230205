@@ -88,4 +88,23 @@ class LendingNumberTest {
                        "LendingNumber should not accept negative years");
       }
 
+    @Test
+    void ensureZeroSequentialIsValid() {
+        final LendingNumber ln = new LendingNumber(2023, 0);
+        assertEquals("2023/0", ln.toString(), "Número de empréstimo deve permitir sequência igual a zero");
+    }
+
+    @Test
+    void ensureYearAtCurrentYearBoundaryIsValid() {
+        int currentYear = LocalDate.now().getYear();
+        final LendingNumber ln = new LendingNumber(currentYear, 1);
+        assertEquals(currentYear + "/1", ln.toString(),
+                "Número de empréstimo deve ser válido para o ano atual");
+    }
+
+    @Test
+    void ensureLendingNumberWithoutSlashThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> new LendingNumber("202401"),
+                "Formato incorreto sem barra deve lançar exceção");
+    }
 }

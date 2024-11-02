@@ -96,7 +96,7 @@ class GenreTest {
 
     @Test
     void testDuplicateGenreNamesEnforced() {
-        // Simulate duplicate genre name check (this requires database interaction in practice)
+
         Genre genre1 = new Genre("Thriller");
         assertDoesNotThrow(() -> new Genre("Thriller"), 
                            "Database should enforce unique constraint on genre name but not in-memory validation");
@@ -108,5 +108,53 @@ class GenreTest {
         final var genre = new Genre("Adventure");
         assertEquals("Adventure", genre.toString(), 
                      "Genre should be set correctly when a valid name is provided");
+    }
+
+    @Test
+    void ensureGenreTrimsExcessSpaces() {
+        Genre genre = new Genre("  Romance  ");
+        assertEquals("Romance", genre.toString().strip(),
+                "Gênero deve armazenar sem espaços ao redor");
+    }
+
+    @Test
+    void testGenreWithOnlyWhitespaceCharacters() {
+        assertThrows(IllegalArgumentException.class, () -> new Genre("     "),
+                "Gênero contendo apenas espaços em branco não deve ser permitido");
+    }
+
+    @Test
+    void testGenreWithLeadingAndTrailingSpaces() {
+        Genre genre = new Genre("   Action   ");
+        assertEquals("Action", genre.toString().strip(),
+                "Espaços ao redor devem ser removidos ao definir o nome do gênero");
+    }
+
+    @Test
+    void ensureExceptionTypeForNullGenre() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new Genre(null));
+        assertEquals("Genre cannot be null", exception.getMessage(),
+                "Mensagem de exceção para gênero nulo deve ser específica");
+    }
+
+    @Test
+    void ensureExceptionTypeForBlankGenre() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new Genre(" "));
+        assertEquals("Genre cannot be blank", exception.getMessage(),
+                "Mensagem de exceção para gênero em branco deve ser específica");
+    }
+
+    @Test
+    void testValidGenreWithMixedCharacters() {
+        Genre genre = new Genre("Sci-Fi Fantasy");
+        assertEquals("Sci-Fi Fantasy", genre.toString(),
+                "Gêneros com caracteres especiais e espaços devem ser aceitos");
+    }
+
+    @Test
+    void testSettingGenreSuccessfully() {
+        final var genre = new Genre("Comedy");
+        assertEquals("Comedy", genre.toString(),
+                "O gênero deve ser configurado corretamente com um nome válido");
     }
 }

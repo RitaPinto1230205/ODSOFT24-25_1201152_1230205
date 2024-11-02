@@ -119,5 +119,30 @@ class TitleTest {
         Title title = new Title(emojiTitle);
         assertEquals(emojiTitle, title.toString());
     }
+    @Test
+    void testTitleWithNewlineCharacter() {
+        Title title = new Title("Title with newline\n");
+        assertEquals("Title with newline", title.toString(), "Falha ao remover newline do fim do título");
+    }
 
+    @Test
+    void testTitleWithTabCharacter() {
+        Title title = new Title("Title with tab\t");
+        assertEquals("Title with tab", title.toString(), "Falha ao remover tabulação do fim do título");
+    }
+
+    @Test
+    void testToStringWithLeadingAndTrailingWhitespace() {
+          Title title = new Title("  Surrounded by spaces  ");
+        assertEquals("Surrounded by spaces", title.toString(), "Falha ao remover espaços ao redor do título");
+    }
+
+    @Test
+    void ensureTitleThrowsExceptionWhenExceedsMaxLength() {
+        StringBuilder oversizedTitle = new StringBuilder();
+        for (int i = 0; i < 129; i++) {
+            oversizedTitle.append("a");
+        }
+        assertThrows(IllegalArgumentException.class, () -> new Title(oversizedTitle.toString()), "Esperava uma exceção para título excedendo o limite de 128 caracteres");
+    }
 }

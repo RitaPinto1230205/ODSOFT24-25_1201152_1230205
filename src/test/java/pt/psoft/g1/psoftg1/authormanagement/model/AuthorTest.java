@@ -23,6 +23,8 @@ class AuthorTest {
     @BeforeEach
     void setUp() {
     }
+
+    // TESTES DE CAIXA PRETA (Black-box)
     @Test
     void ensureNameNotNull(){
         assertThrows(IllegalArgumentException.class, () -> new Author(null,validBio, null));
@@ -114,7 +116,6 @@ class AuthorTest {
 
     // Transparent-box test cases (White-box testing)
 
-
     @Test
     void testRemovePhotoWithValidVersion() {
         Author author = new Author(validName, validBio, photoURI);
@@ -134,6 +135,21 @@ class AuthorTest {
     void testInvalidVersionThrowsStaleObjectStateExceptionInPatch() {
         Author author = new Author(validName, validBio, null);
         assertThrows(StaleObjectStateException.class, () -> author.applyPatch(author.getVersion() + 1, request));
+    }
+
+    // Teste adicional de configuração de foto
+    @Test
+    void testSetPhotoURI() {
+        // Arrange
+        EntityWithPhoto entity = new EntityWithPhotoImpl();
+        String newPhotoURI = "newPhoto.jpg";
+
+        // Act
+        entity.setPhoto(newPhotoURI);
+
+        // Assert
+        assertNotNull(entity.getPhoto(), "Photo should not be null after being set");
+        assertEquals(newPhotoURI, entity.getPhoto().getPhotoFile(), "Photo URI should match the newly set URI");
     }
 }
 

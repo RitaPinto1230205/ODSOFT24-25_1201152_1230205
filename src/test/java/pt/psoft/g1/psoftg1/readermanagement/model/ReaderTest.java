@@ -2,14 +2,17 @@ package pt.psoft.g1.psoftg1.readermanagement.model;
 
 import org.junit.jupiter.api.Test;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
+import pt.psoft.g1.psoftg1.readermanagement.services.UpdateReaderRequest;
 import pt.psoft.g1.psoftg1.shared.model.Photo;
 import pt.psoft.g1.psoftg1.usermanagement.model.Reader;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ReaderTest {
     @Test
@@ -197,5 +200,45 @@ public class ReaderTest {
 
         // Assert
         assertEquals(10, readerDetails.getInterestList().size());
+    }
+
+
+    @Test
+    void ensureSettingThirdPartyConsentUpdatesValue() {
+        // Arrange
+        Reader mockReader = mock(Reader.class);
+        ReaderDetails readerDetails = new ReaderDetails(123, mockReader, "2010-01-01", "912345678", true, false, false, null, null);
+
+        // Act
+        readerDetails.setThirdPartySharingConsent(true);
+
+        // Assert
+        assertTrue(readerDetails.isThirdPartySharingConsent());
+    }
+
+    @Test
+    void ensureReaderCanBeUpdatedWithValidData() {
+        // Arrange
+        Reader mockReader = mock(Reader.class);
+        ReaderDetails readerDetails = new ReaderDetails(123, mockReader, "2010-01-01", "912345678", true, false, false, null, null);
+
+        // Act
+        readerDetails.setReader(mockReader);
+
+        // Assert
+        assertNotNull(readerDetails.getReader());
+        assertEquals(mockReader, readerDetails.getReader());
+    }
+    @Test
+    void ensureIsMarketingConsentReturnsCorrectValue() {
+        // Arrange
+        Reader mockReader = mock(Reader.class);
+        ReaderDetails readerDetails = new ReaderDetails(123, mockReader, "1990-01-01", "912345678", true, false, false, "photo.jpg", null);
+
+        // Act
+        boolean marketingConsent = readerDetails.isMarketingConsent();
+
+        // Assert
+        assertFalse(marketingConsent);
     }
 }
