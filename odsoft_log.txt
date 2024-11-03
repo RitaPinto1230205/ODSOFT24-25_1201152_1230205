@@ -1,0 +1,38 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2024-11-03T21:29:36.186Z  INFO 36515 --- [psoft-g1] [           main] pt.psoft.g1.psoftg1.PsoftG1Application   : Starting PsoftG1Application v0.0.1-SNAPSHOT using Java 17.0.12 with PID 36515 (/Users/ritapinto/.m2/repository/pt/psoft/g1/psoft-g1/0.0.1-SNAPSHOT/psoft-g1-0.0.1-SNAPSHOT.jar started by ritapinto in /Users/ritapinto/Desktop/Isep/ODSOFT_24/TrabalhoPt1/ODSOFT24-25_1201152_1230205)
+2024-11-03T21:29:36.190Z  INFO 36515 --- [psoft-g1] [           main] pt.psoft.g1.psoftg1.PsoftG1Application   : The following 1 profile is active: "bootstrap"
+2024-11-03T21:29:37.514Z  INFO 36515 --- [psoft-g1] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-03T21:29:37.711Z  INFO 36515 --- [psoft-g1] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 191 ms. Found 9 JPA repository interfaces.
+2024-11-03T21:29:38.411Z  INFO 36515 --- [psoft-g1] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-03T21:29:38.427Z  INFO 36515 --- [psoft-g1] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-03T21:29:38.427Z  INFO 36515 --- [psoft-g1] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-11-03T21:29:38.467Z  INFO 36515 --- [psoft-g1] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-03T21:29:38.468Z  INFO 36515 --- [psoft-g1] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2202 ms
+2024-11-03T21:29:38.504Z  INFO 36515 --- [psoft-g1] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-03T21:29:38.718Z  INFO 36515 --- [psoft-g1] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=MYSQLUSER
+2024-11-03T21:29:38.719Z  INFO 36515 --- [psoft-g1] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-03T21:29:38.728Z  INFO 36515 --- [psoft-g1] [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-11-03T21:29:38.814Z  INFO 36515 --- [psoft-g1] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-03T21:29:38.887Z  INFO 36515 --- [psoft-g1] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-11-03T21:29:38.914Z  INFO 36515 --- [psoft-g1] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-03T21:29:39.083Z  INFO 36515 --- [psoft-g1] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-03T21:29:39.118Z  WARN 36515 --- [psoft-g1] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-03T21:29:40.453Z  INFO 36515 --- [psoft-g1] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-03T21:29:40.512Z  INFO 36515 --- [psoft-g1] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-03T21:29:40.847Z  INFO 36515 --- [psoft-g1] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-11-03T21:29:42.055Z  WARN 36515 --- [psoft-g1] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-03T21:29:42.150Z  INFO 36515 --- [psoft-g1] [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: ServletContext resource [/index.html]
+2024-11-03T21:29:42.476Z  INFO 36515 --- [psoft-g1] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@13bd25ab, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3d1f6213, org.springframework.security.web.context.SecurityContextHolderFilter@5f45d7db, org.springframework.security.web.header.HeaderWriterFilter@3baed0a9, org.springframework.web.filter.CorsFilter@31d09031, org.springframework.security.web.authentication.logout.LogoutFilter@5919dd67, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@5b152082, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@71d85b53, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@29e3c7fe, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1205d231, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4f7c5402, org.springframework.security.web.session.SessionManagementFilter@5aa345a5, org.springframework.security.web.access.ExceptionTranslationFilter@76ec6ae0, org.springframework.security.web.access.intercept.AuthorizationFilter@127350d8]
+2024-11-03T21:29:42.766Z  INFO 36515 --- [psoft-g1] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-11-03T21:29:42.785Z  INFO 36515 --- [psoft-g1] [           main] pt.psoft.g1.psoftg1.PsoftG1Application   : Started PsoftG1Application in 6.957 seconds (process running for 7.492)
+2024-11-03T21:30:19.357Z  INFO 36515 --- [psoft-g1] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-03T21:30:19.357Z  INFO 36515 --- [psoft-g1] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-03T21:30:19.358Z  INFO 36515 --- [psoft-g1] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

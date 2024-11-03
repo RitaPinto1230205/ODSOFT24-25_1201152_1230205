@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>pt.psoft.g1</groupId>
+  <artifactId>psoft-g1</artifactId>
+  <versioning>
+    <versions>
+      <version>0.0.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20241103215307</lastUpdated>
+  </versioning>
+</metadata>
