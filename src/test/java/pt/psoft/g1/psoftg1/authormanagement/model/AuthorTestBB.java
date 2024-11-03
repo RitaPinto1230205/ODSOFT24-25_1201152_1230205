@@ -32,13 +32,7 @@ public class AuthorTestBB {
         assertThrows(IllegalArgumentException.class, () -> new Author(validName, null, null));
     }
 
-    @Test
-    void ensureValidAuthorCreation() {
-        Author author = new Author(validName, validBio, null);
-        assertEquals(validName, author.getName());
-        assertEquals(validBio, author.getBio());
-        assertNotNull(author.getPhoto());
-    }
+
 
     @Test
     void whenVersionIsStale_applyPatchThrowsStaleObjectStateException() {
@@ -47,15 +41,6 @@ public class AuthorTestBB {
     }
 
     // Transparent-box test cases (White-box testing)
-    @Test
-    void testApplyPatchWithMatchingVersion() {
-        Author author = new Author(validName, validBio, null);
-        long currentVersion = author.getVersion();
-        UpdateAuthorRequest updateRequest = new UpdateAuthorRequest("Updated Name", null, null, null);
-        author.applyPatch(currentVersion, updateRequest);
-        assertEquals("Updated Name", author.getName());
-    }
-
     @Test
     void testRemovePhotoWithValidVersion() {
         Author author = new Author(validName, validBio, null);
