@@ -11,7 +11,7 @@ import pt.psoft.g1.psoftg1.genremanagement.services.GenreLendingsPerMonthDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-03T21:23:47+0000",
+    date = "2024-11-03T22:27:30+0000",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Amazon.com Inc.)"
 )
 @Component

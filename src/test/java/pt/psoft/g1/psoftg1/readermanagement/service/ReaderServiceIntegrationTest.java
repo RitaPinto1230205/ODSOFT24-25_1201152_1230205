@@ -49,7 +49,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testCreateReader_Success() {
+    public void testCreateReader_Success() {
         CreateReaderRequest request = new CreateReaderRequest();
         request.setUsername("newUser");
         request.setPassword("password123");
@@ -67,7 +67,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testCreateReader_UsernameConflict() {
+    public void testCreateReader_UsernameConflict() {
         // Assuming "existingUser" is already present in the user repository
         CreateReaderRequest request = new CreateReaderRequest();
         request.setUsername("existingUser");
@@ -84,7 +84,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testFindTopByGenre_Success() {
+    public void testFindTopByGenre_Success() {
         String genre = "Science Fiction";
         LocalDate startDate = LocalDate.of(2023, 1, 1);
         LocalDate endDate = LocalDate.of(2023, 12, 31);
@@ -96,7 +96,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testFindTopByGenre_InvalidDateRange() {
+    public void testFindTopByGenre_InvalidDateRange() {
         String genre = "Fantasy";
         LocalDate startDate = LocalDate.of(2023, 12, 31);
         LocalDate endDate = LocalDate.of(2023, 1, 1);
@@ -109,7 +109,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testUpdateReader_Success() {
+    public void testUpdateReader_Success() {
         Long readerId = 1L; // Replace with a valid reader ID in the test database
         UpdateReaderRequest request = new UpdateReaderRequest();
         request.setFullName("Updated Name");
@@ -123,7 +123,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testRemoveReaderPhoto_Success() {
+    public void testRemoveReaderPhoto_Success() {
         String readerNumber = "12345"; // Replace with a valid reader number in the test database
 
         Optional<ReaderDetails> readerWithoutPhoto = readerService.removeReaderPhoto(readerNumber, 1);
@@ -133,7 +133,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testSearchReaders_Success() {
+    public void testSearchReaders_Success() {
         pt.psoft.g1.psoftg1.shared.services.Page page = new pt.psoft.g1.psoftg1.shared.services.Page(1, 10);
         SearchReadersQuery query = new SearchReadersQuery("Alice", "1234567890", "alice@example.com");
 
@@ -144,7 +144,7 @@ public class ReaderServiceIntegrationTest {
     }
 
     @Test
-    void testSearchReaders_NoResults() {
+    public void testSearchReaders_NoResults() {
         pt.psoft.g1.psoftg1.shared.services.Page page = new pt.psoft.g1.psoftg1.shared.services.Page(1, 10);
         SearchReadersQuery query = new SearchReadersQuery("Nonexistent Name", "0000000000", "nonexistent@example.com");
 
