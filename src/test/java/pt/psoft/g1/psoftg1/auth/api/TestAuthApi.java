@@ -1,3 +1,4 @@
+
 package pt.psoft.g1.psoftg1.auth.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,22 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import pt.psoft.g1.psoftg1.testutils.JsonHelper;
-import pt.psoft.g1.psoftg1.testutils.UserTestDataFactory;
-import pt.psoft.g1.psoftg1.usermanagement.api.UserView;
-
-import static java.lang.System.currentTimeMillis;
-import static org.junit.Assert.assertEquals;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Based on https://github.com/Yoh0xFF/java-spring-security-example
@@ -59,8 +44,8 @@ class TestAuthApi {
         this.objectMapper = objectMapper;
         this.userTestDataFactory = userTestDataFactory;
     }
-
-  /*  @Test
+/*
+    @Test
     void testLoginSuccess() throws Exception {
         final UserView userView = userTestDataFactory
                 .createUser(String.format("test.user.%d@nix.io", currentTimeMillis()), "Test User", password);
@@ -75,9 +60,9 @@ class TestAuthApi {
         final UserView authUserView = JsonHelper.fromJson(objectMapper, createResult.getResponse().getContentAsString(),
                 UserView.class);
         assertEquals(userView.getId(), authUserView.getId(), "User ids must match!");
-    }*/
+    }
 
-  /*  @Test
+    @Test
     void testLoginFail() throws Exception {
         final UserView userView = userTestDataFactory
                 .createUser(String.format("test.user.%d@nix.io", currentTimeMillis()), "Test User", password);
@@ -89,9 +74,10 @@ class TestAuthApi {
                         .content(JsonHelper.toJson(objectMapper, request)))
                 .andExpect(status().isUnauthorized()).andExpect(header().doesNotExist(HttpHeaders.AUTHORIZATION))
                 .andReturn();
-    }*/
+    }
 
-   /* @Test
+    /*
+    @Test
     void testRegisterSuccess() throws Exception {
         final CreateUserRequest goodRequest = new CreateUserRequest(
                 String.format("test.user.%d@nix.com", currentTimeMillis()), "Test User A", password);
@@ -104,9 +90,9 @@ class TestAuthApi {
                 UserView.class);
         assertNotNull(userView.getId(), "User id must not be null!");
         assertEquals(goodRequest.getName(), userView.getFullName(), "User fullname  update isn't applied!");
-    }*/
+    }
 
-  /*  @Test
+    @Test
     void testRegisterFail() throws Exception {
         final CreateUserRequest badRequest = new CreateUserRequest("invalid.username", "", "");
 
@@ -114,6 +100,6 @@ class TestAuthApi {
                 .perform(post("/api/public/register").contentType(MediaType.APPLICATION_JSON)
                         .content(JsonHelper.toJson(objectMapper, badRequest)))
                 .andExpect(status().isBadRequest()).andExpect(content().string(containsString("must not be blank")));
-    }*/
-
+    }
+*/
 }
