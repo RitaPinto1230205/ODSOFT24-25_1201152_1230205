@@ -8,7 +8,7 @@ import pt.psoft.g1.psoftg1.usermanagement.model.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-02T18:28:37+0000",
+    date = "2024-11-03T21:23:47+0000",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Amazon.com Inc.)"
 )
 @Component
