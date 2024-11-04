@@ -1,4 +1,7 @@
-node {  
+pipeline {  
+
+        agent any
+        
         env.MAVEN_VERSION = '3.8.1'
         env.GRADLE_VERSION = '7.0'
         env.NODE_VERSION = '14.17.0'
