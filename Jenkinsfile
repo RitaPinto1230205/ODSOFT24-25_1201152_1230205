@@ -1,4 +1,9 @@
 node {  
+        env.MAVEN_VERSION = '3.8.1'
+        env.GRADLE_VERSION = '7.0'
+        env.NODE_VERSION = '14.17.0'
+        env.PROJECT_DIR = 'psoft-project-2024-g1'
+    
     // Define versions of Maven, Gradle, and Node.js
     stage('Check Out') {
         echo 'Starting Check Out stage...'
