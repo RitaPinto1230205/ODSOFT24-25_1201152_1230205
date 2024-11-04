@@ -62,31 +62,6 @@ pipeline {
                                 '''
                             }
                         },
-                        "Install Unzip": {
-                            echo 'Installing Unzip...'
-                            if (isUnix()) {
-                                sh '''
-                                    if ! command -v unzip >/dev/null; then
-                                        echo "Installing unzip..."
-                                        if [ -f /etc/debian_version ]; then
-                                            sudo apt-get update && sudo apt-get install -y unzip
-                                        elif [ -f /etc/redhat-release ]; then
-                                            sudo yum install -y unzip
-                                        else
-                                            echo "Unsupported Linux distribution. Please install unzip manually."
-                                            exit 1
-                                        fi
-                                    fi
-                                '''
-                            } else {
-                                bat '''
-                                    where unzip || (
-                                        choco install unzip -y
-                                    )
-                                '''
-                            }
-                        },
-                
                     )
                 }
             }
