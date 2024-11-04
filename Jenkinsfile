@@ -69,12 +69,15 @@ pipeline {
                     if ! command -v gradle &> /dev/null
                     then
                         curl -O https://services.gradle.org/distributions/gradle-7.0-bin.zip
-                        # Se unzip não estiver disponível, use tar para extrair o arquivo
-                        if command -v tar &> /dev/null; then
-                            mkdir -p /usr/local/gradle
-                            unzip gradle-7.0-bin.zip -d /usr/local/gradle
+                        # Usar um diretório temporário dentro do workspace do Jenkins
+                        mkdir -p ~/gradle
+                        # Extraindo o Gradle usando unzip ou tar
+                        if command -v unzip &> /dev/null; then
+                            unzip gradle-7.0-bin.zip -d ~/gradle
+                        elif command -v tar &> /dev/null; then
+                            tar -xvf gradle-7.0-bin.zip -C ~/gradle
                         else
-                            echo "unzip command not found!"
+                            echo "Neither unzip nor tar command is available!"
                             exit 1
                         fi
                     fi
