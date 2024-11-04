@@ -1,12 +1,11 @@
+
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-openjdk-11'  // Imagem com Maven e JDK
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Para executar Docker se necessário
-        }
-    }
+    agent any
 
     environment {
+        MAVEN_VERSION = "3.8.1"
+        GRADLE_VERSION = "7.0"
+        NODE_VERSION = "14.17.0"
         PROJECT_DIR = "psoft-project-2024-g1"
     }
 
@@ -20,13 +19,90 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    parallel(
+                        "Install Git": {
+                            echo 'Installing Git...'
+                            if (isUnix()) {
+                                sh '''
+                                    if ! git --version; then
+                                        if ! command -v brew >/dev/null 2>&1; then
+                                            echo "Homebrew not found. Install it from https://brew.sh"
+                                            exit 1
+                                        fi
+                                        brew install git
+                                    fi
+                                '''
+                            } else {
+                                bat '''
+                                    git --version || (
+                                        choco install git -y
+                                    )
+                                '''
+                            }
+                        },
+                        "Install Maven": {
+                            echo 'Installing Maven...'
+                            if (isUnix()) {
+                                sh '''
+                                    if ! mvn -v; then
+                                        curl -O https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+                                        tar xzvf apache-maven-${MAVEN_VERSION}-bin.tar.gz
+                                        sudo mv apache-maven-${MAVEN_VERSION} /opt/maven
+                                        sudo ln -s /opt/maven/bin/mvn /usr/local/bin/mvn
+                                    fi
+                                '''
+                            } else {
+                                bat '''
+                                    mvn -v || (
+                                        choco install maven -y
+                                    )
+                                '''
+                            }
+                        },
+                        "Install Unzip": {
+                            echo 'Installing Unzip...'
+                            if (isUnix()) {
+                                sh '''
+                                    if ! command -v unzip >/dev/null; then
+                                        echo "Installing unzip..."
+                                        if [ -f /etc/debian_version ]; then
+                                            sudo apt-get update && sudo apt-get install -y unzip
+                                        elif [ -f /etc/redhat-release ]; then
+                                            sudo yum install -y unzip
+                                        else
+                                            echo "Unsupported Linux distribution. Please install unzip manually."
+                                            exit 1
+                                        fi
+                                    fi
+                                '''
+                            } else {
+                                bat '''
+                                    where unzip || (
+                                        choco install unzip -y
+                                    )
+                                '''
+                            }
+                        },
+                
+                    )
+                }
+            }
+        }
+
         stage('Run Unit Tests') {
             steps {
                 script {
                     dir(env.PROJECT_DIR) {
                         if (fileExists('pom.xml')) {
                             echo 'Running unit tests...'
-                            sh 'mvn -Dtest=*Teste test'
+                            if (isUnix()) {
+                                sh 'mvn -Dtest=*Teste test'
+                            } else {
+                                bat 'mvn -Dtest=*Teste test'
+                            }
                         } else {
                             error 'pom.xml not found. Aborting.'
                         }
@@ -41,7 +117,11 @@ pipeline {
                     dir(env.PROJECT_DIR) {
                         if (fileExists('pom.xml')) {
                             echo 'Running integration tests...'
-                            sh 'mvn -Dtest=*IT,*IntegracionTest verify'
+                            if (isUnix()) {
+                                sh 'mvn -Dtest=*IT,*IntegracionTest verify'
+                            } else {
+                                bat 'mvn -Dtest=*IT,*IntegracionTest verify'
+                            }
                         } else {
                             error 'pom.xml not found. Aborting.'
                         }
@@ -56,7 +136,11 @@ pipeline {
                     dir(env.PROJECT_DIR) {
                         if (fileExists('pom.xml')) {
                             echo 'Building and packaging project...'
-                            sh 'mvn clean package'
+                            if (isUnix()) {
+                                sh 'mvn clean package'
+                            } else {
+                                bat 'mvn clean package'
+                            }
                         } else {
                             error 'pom.xml not found. Aborting.'
                         }
@@ -71,7 +155,11 @@ pipeline {
                     dir(env.PROJECT_DIR) {
                         if (fileExists('target/psoft-g1-0.0.1-SNAPSHOT.jar')) {
                             echo 'Deploying application...'
-                            sh 'nohup java -jar target/psoft-g1-0.0.1-SNAPSHOT.jar &'
+                            if (isUnix()) {
+                                sh 'nohup java -jar target/psoft-g1-0.0.1-SNAPSHOT.jar &'
+                            } else {
+                                bat 'start java -jar target\\psoft-g1-0.0.1-SNAPSHOT.jar'
+                            }
                         } else {
                             error 'JAR file not found. Aborting deployment.'
                         }
@@ -81,6 +169,7 @@ pipeline {
         }
     }
 }
+
 
 
 
