@@ -64,14 +64,21 @@ pipeline {
                         "Install Gradle": {
                             echo 'Installing Gradle...'
                             if (isUnix()) {
-                                  if (!fileExists('/usr/local/bin/gradle')) {
-                        echo 'Gradle não encontrado. Instalando...'
-                        sh 'curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip'
-                        sh 'unzip gradle-${GRADLE_VERSION}-bin.zip'
-                        sh 'mv gradle-${GRADLE_VERSION} /usr/local/gradle'
-                        sh 'echo "export PATH=\$PATH:/usr/local/gradle/bin" >> ~/.bash_profile'
-                        sh 'source ~/.bash_profile'
-                    }
+                               echo 'Installing Gradle...'
+                    sh '''
+                    if ! command -v gradle &> /dev/null
+                    then
+                        curl -O https://services.gradle.org/distributions/gradle-7.0-bin.zip
+                        # Se unzip não estiver disponível, use tar para extrair o arquivo
+                        if command -v tar &> /dev/null; then
+                            mkdir -p /usr/local/gradle
+                            unzip gradle-7.0-bin.zip -d /usr/local/gradle
+                        else
+                            echo "unzip command not found!"
+                            exit 1
+                        fi
+                    fi
+                    '''
                             } else {
                                 bat '''
                                     gradle -v || (
