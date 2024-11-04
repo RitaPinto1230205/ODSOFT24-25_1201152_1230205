@@ -64,20 +64,14 @@ pipeline {
                         "Install Gradle": {
                             echo 'Installing Gradle...'
                             if (isUnix()) {
-                                sh '''
-                                    # Install unzip if not already installed
-                                    if ! command -v unzip >/dev/null; then
-                                        sudo apt-get update
-                                        sudo apt-get install -y unzip
-                                    fi
-                                    
-                                    if ! gradle -v; then
-                                        curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-                                        unzip gradle-${GRADLE_VERSION}-bin.zip
-                                        sudo mv gradle-${GRADLE_VERSION} /opt/gradle
-                                        sudo ln -s /opt/gradle/bin/gradle /usr/local/bin/gradle
-                                    fi
-                                '''
+                                  if (!fileExists('/usr/local/bin/gradle')) {
+                        echo 'Gradle não encontrado. Instalando...'
+                        sh 'curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip'
+                        sh 'unzip gradle-${GRADLE_VERSION}-bin.zip'
+                        sh 'mv gradle-${GRADLE_VERSION} /usr/local/gradle'
+                        sh 'echo "export PATH=\$PATH:/usr/local/gradle/bin" >> ~/.bash_profile'
+                        sh 'source ~/.bash_profile'
+                    }
                             } else {
                                 bat '''
                                     gradle -v || (
