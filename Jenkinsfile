@@ -87,18 +87,24 @@ pipeline {
                         },
                         "Install Gradle": {
                             echo 'Installing Gradle...'
-                             if (isUnix()) {
+                            if (isUnix()) {
                                 sh '''
-                                    # Instalar SDKMAN! se não estiver disponível
-                                    if ! command -v sdk &> /dev/null; then
-                                        curl -s "https://get.sdkman.io" | bash
-                                        source "$HOME/.sdkman/bin/sdkman-init.sh"
+                                    if ! command -v gradle &> /dev/null; then
+                                        curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+                                        mkdir -p ~/gradle
+                                        # Instala unzip se não estiver disponível
+                                        if ! command -v unzip &> /dev/null; then
+                                            echo "Unzip not found, installing..."
+                                            sudo apt-get update && sudo apt-get install unzip -y || {
+                                                echo "Failed to install unzip"
+                                                exit 1
+                                            }
+                                        fi
+                                        # Extraindo o Gradle
+                                        unzip gradle-${GRADLE_VERSION}-bin.zip -d ~/gradle
                                     fi
-                                    # Instalar Gradle usando SDKMAN!
-                                    source "$HOME/.sdkman/bin/sdkman-init.sh"
-                                    sdk install gradle $GRADLE_VERSION
                                 '''
-                            }  else {
+                            } else {
                                 bat '''
                                     gradle -v || (
                                         choco install gradle -y
