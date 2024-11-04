@@ -65,6 +65,12 @@ pipeline {
                             echo 'Installing Gradle...'
                             if (isUnix()) {
                                 sh '''
+                                    # Install unzip if not already installed
+                                    if ! command -v unzip >/dev/null; then
+                                        sudo apt-get update
+                                        sudo apt-get install -y unzip
+                                    fi
+                                    
                                     if ! gradle -v; then
                                         curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
                                         unzip gradle-${GRADLE_VERSION}-bin.zip
@@ -162,6 +168,7 @@ pipeline {
         }
     }
 }
+
 
 
 
