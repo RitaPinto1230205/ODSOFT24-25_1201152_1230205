@@ -62,6 +62,28 @@ pipeline {
                                 '''
                             }
                         },
+                        /* stage('Install Gradle') {
+                    steps {
+                        script {
+                            if (isUnix()) {
+                                sh '''
+                                if ! gradle -v; then
+                                    curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+                                    unzip gradle-${GRADLE_VERSION}-bin.zip
+                                    sudo mv gradle-${GRADLE_VERSION} /opt/gradle
+                                    sudo ln -s /opt/gradle/bin/gradle /usr/local/bin/gradle
+                                fi
+                                '''
+                            } else {
+                                bat '''
+                                gradle -v || (
+                                    choco install gradle -y
+                                )
+                                '''
+                            }
+                        }
+                    }
+                }*/
                     )
                 }
             }
