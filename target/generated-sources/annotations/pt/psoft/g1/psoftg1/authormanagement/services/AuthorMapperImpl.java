@@ -6,8 +6,8 @@ import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-03T22:27:30+0000",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Amazon.com Inc.)"
+    date = "2024-11-04T23:13:39+0000",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.4 (Amazon.com Inc.)"
 )
 @Component
 public class AuthorMapperImpl extends AuthorMapper {

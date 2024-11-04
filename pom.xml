@@ -237,8 +237,6 @@
                         <param>HTML</param>
                         <param>XML</param>
                     </outputFormats>
-                    <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-                    <mainSourceDirectory>${project.basedir}/src/main/java</mainSourceDirectory>
                 </configuration>
                 <executions>
                     <execution>
