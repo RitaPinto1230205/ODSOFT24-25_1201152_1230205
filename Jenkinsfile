@@ -1,13 +1,5 @@
-node {
-
-    agent any
-    
+node {  
     // Define versions of Maven, Gradle, and Node.js
-    env.MAVEN_VERSION = '3.8.1'
-    env.GRADLE_VERSION = '7.0'
-    env.NODE_VERSION = '14.17.0'
-    env.PROJECT_DIR = 'psoft-project-2024-g1'
-
     stage('Check Out') {
         echo 'Starting Check Out stage...'
         git url: 'https://github.com/1201152/ODSOFT-2024-2025-1201152-1230205.git', branch: 'main'
