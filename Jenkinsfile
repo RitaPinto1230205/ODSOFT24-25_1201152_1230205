@@ -65,20 +65,14 @@ pipeline {
                             echo 'Installing Gradle...'
                              if (isUnix()) {
                                 sh '''
-                                    if ! command -v gradle &> /dev/null; then
-                                        curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-                                        mkdir -p ~/gradle
-                                        if command -v unzip &> /dev/null; then
-                                            unzip gradle-${GRADLE_VERSION}-bin.zip -d ~/gradle
-                                        elif command -v tar &> /dev/null; then
-                                            tar -xvf gradle-${GRADLE_VERSION}-bin.zip -C ~/gradle
-                                        else
-                                            echo "Neither unzip nor tar command is available!"
-                                            exit 1
-                                        fi
-                                        echo 'export PATH="$HOME/gradle/gradle-${GRADLE_VERSION}/bin:$PATH"' >> ~/.bashrc
-                                        source ~/.bashrc
+                                    # Instalar SDKMAN! se não estiver disponível
+                                    if ! command -v sdk &> /dev/null; then
+                                        curl -s "https://get.sdkman.io" | bash
+                                        source "$HOME/.sdkman/bin/sdkman-init.sh"
                                     fi
+                                    # Instalar Gradle usando SDKMAN!
+                                    source "$HOME/.sdkman/bin/sdkman-init.sh"
+                                    sdk install gradle $GRADLE_VERSION
                                 '''
                             }  else {
                                 bat '''
