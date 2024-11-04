@@ -17,6 +17,7 @@ pipeline {
     }
 
     stage('Install Dependencies') {
+        steps {
         parallel(
             "Install Git": {
                 if (isUnix()) {
@@ -74,6 +75,7 @@ pipeline {
                 }
             }
         )
+      }
     }
 
     stage('Unattested - Unit Tests') {
