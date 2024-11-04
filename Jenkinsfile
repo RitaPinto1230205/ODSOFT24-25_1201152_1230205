@@ -1,5 +1,7 @@
 node {
 
+    agent any
+    
     // Define versions of Maven, Gradle, and Node.js
     env.MAVEN_VERSION = '3.8.1'
     env.GRADLE_VERSION = '7.0'
