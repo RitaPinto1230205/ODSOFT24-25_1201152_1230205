@@ -63,26 +63,24 @@ pipeline {
                         },
                         "Install Gradle": {
                             echo 'Installing Gradle...'
-                            if (isUnix()) {
-                               echo 'Installing Gradle...'
-                    sh '''
-                    if ! command -v gradle &> /dev/null
-                    then
-                        curl -O https://services.gradle.org/distributions/gradle-7.0-bin.zip
-                        # Usar um diretório temporário dentro do workspace do Jenkins
-                        mkdir -p ~/gradle
-                        # Extraindo o Gradle usando unzip ou tar
-                        if command -v unzip &> /dev/null; then
-                            unzip gradle-7.0-bin.zip -d ~/gradle
-                        elif command -v tar &> /dev/null; then
-                            tar -xvf gradle-7.0-bin.zip -C ~/gradle
-                        else
-                            echo "Neither unzip nor tar command is available!"
-                            exit 1
-                        fi
-                    fi
-                    '''
-                            } else {
+                             if (isUnix()) {
+                                sh '''
+                                    if ! command -v gradle &> /dev/null; then
+                                        curl -O https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+                                        mkdir -p ~/gradle
+                                        if command -v unzip &> /dev/null; then
+                                            unzip gradle-${GRADLE_VERSION}-bin.zip -d ~/gradle
+                                        elif command -v tar &> /dev/null; then
+                                            tar -xvf gradle-${GRADLE_VERSION}-bin.zip -C ~/gradle
+                                        else
+                                            echo "Neither unzip nor tar command is available!"
+                                            exit 1
+                                        fi
+                                        echo 'export PATH="$HOME/gradle/gradle-${GRADLE_VERSION}/bin:$PATH"' >> ~/.bashrc
+                                        source ~/.bashrc
+                                    fi
+                                '''
+                            }  else {
                                 bat '''
                                     gradle -v || (
                                         choco install gradle -y
