@@ -8,7 +8,8 @@ pipeline {
         NODE_VERSION = "14.17.0"
         PROJECT_DIR = "psoft-project-2024-g1"
         }
-    
+        
+    stages{
     // Define versions of Maven, Gradle, and Node.js
     stage('Check Out') {
         echo 'Starting Check Out stage...'
@@ -134,6 +135,7 @@ pipeline {
             }
         }
     }
+  }
 }
 
 
