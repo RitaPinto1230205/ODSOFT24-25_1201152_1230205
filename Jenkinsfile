@@ -79,6 +79,8 @@ pipeline {
     }
 
     stage('Unattested - Unit Tests') {
+            steps{
+                    script{
             dir(env.PROJECT_DIR) {
                 if (fileExists('pom.xml')) {
                     echo 'Running unit tests (files ending in Teste)...'
@@ -91,9 +93,13 @@ pipeline {
                     error 'pom.xml not found. Aborting.'
                 }
             }
+          }
+         }
         }
 
  stage('Integration Tests') {
+            steps{
+                    script{
         dir(env.PROJECT_DIR) {
             if (fileExists('pom.xml')) {
                 echo 'Running integration tests (files ending in IT or IntegracionTest)...'
@@ -106,9 +112,13 @@ pipeline {
                 error 'pom.xml not found. Aborting.'
             }
         }
+                    }
+            }
     }
 
     stage('Build and Package') {
+               steps{
+                    script{
         dir(env.PROJECT_DIR) {
             if (fileExists('pom.xml')) {
                 echo 'Building and packaging project...'
@@ -121,9 +131,13 @@ pipeline {
                 error 'pom.xml not found. Aborting.'
             }
         }
+                    }
+               }
     }
 
     stage('Deploy') {
+             steps {
+                script {
         dir(env.PROJECT_DIR) {
             if (fileExists('target/psoft-g1-0.0.1-SNAPSHOT.jar')) {
                 echo 'Deploying application...'
@@ -136,6 +150,8 @@ pipeline {
                 error 'JAR file not found. Aborting deployment.'
             }
         }
+                }
+             }
     }
   }
 }
