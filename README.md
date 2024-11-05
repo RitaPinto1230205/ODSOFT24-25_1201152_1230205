@@ -61,12 +61,10 @@ CI/CD pipeline stages
 | **Execução de Testes de Integração** | Realiza testes que avaliam a interação entre diferentes módulos do sistema.                   | Importante para identificar problemas que não aparecem em testes unitários. Garante que os módulos funcionem corretamente em conjunto. |
 | **Build e Package**      | Compila o código e empacota o aplicativo em um arquivo executável, como um JAR.                 | Etapa crítica que garante que o código esteja pronto para produção. Erros aqui podem resultar em um aplicativo não executável. |
 | **Deploy**                | Realiza a implantação do aplicativo em um ambiente de produção, iniciando a aplicação.          | A implantação deve ser feita com cautela para evitar interrupções. Mecanismos de rollback são recomendados em caso de falhas. |
-| **Smoke Tests**           | Realiza testes básicos após a implantação para verificar funcionalidades principais.              | Primeira verificação de estabilidade da aplicação após a implantação. Importante para identificar problemas antes de testes mais profundos. |
-
 
 ## 1.3 Pipeline specification read (checkout) from SCM
 
-Na especificação da pipeline, a etapa de "Checkout" é crucial, pois é onde o código-fonte é obtido do sistema de controle de versão (SCM). Abaixo está uma análise detalhada desta etapa, incluindo a sua estrutura e importância:
+Na especificação da pipeline, a etapa de "Checkout" é crucial, pois é onde o código-fonte é obtido do sistema de CV (SCM). Abaixo está uma análise detalhada desta etapa, incluindo a sua estrutura e importância:
 
 ```java
 stages {
@@ -83,23 +81,23 @@ stages {
     Estrutura da Etapa de Checkout
     
    *  (stage('Check Out')): Define um novo estágio na pipeline chamado "Check Out". Os estágios permitem que a pipeline seja organizada em diferentes fases, facilitando a leitura e a manutenção do código.
-   *  (steps): Esta seção contém as ações que devem ser executadas durante o estágio. Neste caso, estamos executando um script.
+   *  (steps): Esta seção contém as ações que devem ser executadas durante o estágio. Neste caso, estamos a executar um script.
    *  (script): Um bloco que permite que comandos mais complexos sejam executados. Isso é útil quando há necessidade de lógica condicional ou operações mais elaboradas.
-   *  (echo 'Starting Check Out stage...'): Um comando que imprime uma mensagem no console para informar que a etapa de checkout começou. Isso é útil para o rastreamento e a depuração da execução da pipeline.
+   *  (echo 'Starting Check Out stage...'): Um comando que imprime uma mensagem  para informar que a etapa de checkout começou. Isso é útil para o rastreamento e a depuração da execução da pipeline.
    *  (git url: '...'): Este comando é responsável por clonar o repositório Git especificado. Ele busca o código-fonte na URL fornecida e na branch especificada (neste caso, main).
-   * O uso do Git permite que a equipe trabalhe em colaboração, garantindo que todos os desenvolvedores estejam sempre com a versão mais recente do código. 
+   * O uso do Git permite que a equipa trabalhe em colaboração, garantindo que todos os desenvolvedores estejam sempre com a versão mais recente do código. 
 
 
    * Importância da Etapa de Checkout
-    Obtenção do Código: O checkout é a primeira etapa na maioria das pipelines CI/CD, pois sem o código-fonte, não há nada para construir ou testar. Esta etapa assegura que a versão correta do código está sendo utilizada.
+    Obtenção do Código: O checkout é a primeira etapa na maioria das pipelines CI/CD, pois sem o código-fonte, não há nada para construir ou testar. Esta etapa assegura que a versão correta do código está a ser utilizada.
     Versionamento: Permite que a pipeline trabalhe com a versão mais atual do código, o que é fundamental para um desenvolvimento ágil e colaborativo. Isso reduz o risco de conflitos e inconsistências no código.
     Transparência: A mensagem de echo proporciona visibilidade durante a execução da pipeline, permitindo que os desenvolvedores acompanhem o progresso e identifiquem rapidamente onde ocorreram problemas, se houver.
-    Integração: O uso do SCM, como o Git, permite integrar facilmente outras ferramentas e serviços, como pull requests, revisões de código e gestão de branches.
+    Integração: O uso do SCM, no nosso caso o Git, permite integrar facilmente outras ferramentas e serviços, como pull requests, revisões de código e gestão de branches.
 
 
 ## 1.4 Build and Package
 
-A etapa "Build and Package" é essencial na pipeline de integração contínua e entrega contínua (CI/CD). Nesta fase, o código-fonte do projeto é compilado e empacotado em um formato que pode ser facilmente implantado. O Maven, como ferramenta de gerenciamento de projetos e automação de construção, é utilizado para realizar essas tarefas.
+A etapa "Build and Package" é essencial na pipeline de integração contínua e entrega contínua (CI/CD). Nesta fase, o código-fonte do projeto é compilado e empacotado num formato que pode ser facilmente implantado. O Maven, como ferramenta de gerenciamento de projetos e automação de construção, é utilizado para realizar essas tarefas.
 
 ```java
 stage('Build and Package') {
