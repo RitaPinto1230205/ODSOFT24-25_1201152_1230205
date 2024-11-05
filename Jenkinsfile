@@ -1,7 +1,6 @@
 
 pipeline {
     agent any
-
     environment {
         MAVEN_VERSION = "3.8.1"
         GRADLE_VERSION = "7.0"
