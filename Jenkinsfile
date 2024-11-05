@@ -5,7 +5,7 @@ pipeline {
         MAVEN_VERSION = "3.8.1"
         GRADLE_VERSION = "7.0"
         NODE_VERSION = "14.17.0"
-        PROJECT_DIR = "psoft-project-2024-g1"
+        PROJECT_DIR = ""
     }
 
     stages {
@@ -91,7 +91,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 script {
-                    dir(env.PROJECT_DIR) {
+
                         if (fileExists('pom.xml')) {
                             echo 'Running unit tests...'
                             if (isUnix()) {
@@ -103,14 +103,14 @@ pipeline {
                             error 'pom.xml not found. Aborting.'
                         }
                     }
-                }
+
             }
         }
 
         stage('Integration Tests') {
             steps {
                 script {
-                    dir(env.PROJECT_DIR) {
+
                         if (fileExists('pom.xml')) {
                             echo 'Running integration tests...'
                             if (isUnix()) {
@@ -123,13 +123,13 @@ pipeline {
                         }
                     }
                 }
-            }
+
         }
 
         stage('Build and Package') {
             steps {
                 script {
-                    dir(env.PROJECT_DIR) {
+
                         if (fileExists('pom.xml')) {
                             echo 'Building and packaging project...'
                             if (isUnix()) {
@@ -140,7 +140,7 @@ pipeline {
                         } else {
                             error 'pom.xml not found. Aborting.'
                         }
-                    }
+
                 }
             }
         }
@@ -148,7 +148,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    dir(env.PROJECT_DIR) {
+
                         if (fileExists('target/psoft-g1-0.0.1-SNAPSHOT.jar')) {
                             echo 'Deploying application...'
                             if (isUnix()) {
@@ -160,7 +160,7 @@ pipeline {
                             error 'JAR file not found. Aborting deployment.'
                         }
                     }
-                }
+
             }
         }
     }
