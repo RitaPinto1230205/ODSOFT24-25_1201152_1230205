@@ -191,7 +191,6 @@
                             <goal>prepare-agent</goal>
                             <goal>report</goal>
                         </goals>
-                        <phase>test</phase>
                     </execution>
                     <execution>
                         <id>report</id>
