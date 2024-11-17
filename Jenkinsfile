@@ -66,23 +66,19 @@ pipeline {
             }
         }
 
-        stage('Run Unit Tests and Coverage') {
-            steps {
-                script {
-                    if (fileExists('pom.xml')) {
-                        echo 'Running unit tests and generating coverage report...'
-                        if (isUnix()) {
+      stage('Run Unit Tests and Coverage') {
+          steps {
+              script {
+                  echo 'Running unit tests and generating coverage report...'
+                  if (isUnix()) {
+                      sh 'mvn clean test -Dtest=*.Test jacoco:prepare-agent jacoco:report'
+                  } else {
+                      bat 'mvn clean test -Dtest=*.Test jacoco:prepare-agent jacoco:report'
+                  }
+              }
+          }
+      }
 
-                            sh 'mvn clean test -Dtest=*Teste jacoco:report'
-                        } else {
-                            bat 'mvn clean test -Dtest=*Teste jacoco:report'
-                        }
-                    } else {
-                        error 'pom.xml not found. Aborting.'
-                    }
-                }
-            }
-        }
 
         stage('Present Unit Test Coverage') {
             steps {
