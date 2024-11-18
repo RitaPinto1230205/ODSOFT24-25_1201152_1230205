@@ -168,4 +168,26 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            echo 'Publishing Coverage Reports...'
+            publishHTML(target: [
+                reportName: 'Unit Test Coverage',
+                reportDir: 'target/site/jacoco-unit',
+                reportFiles: 'index.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ])
+            publishHTML(target: [
+                reportName: 'Integration Test Coverage',
+                reportDir: 'target/site/jacoco-integration',
+                reportFiles: 'index.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ])
+        }
+    }
 }
