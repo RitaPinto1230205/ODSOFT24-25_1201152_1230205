@@ -116,6 +116,23 @@ pipeline {
             }
         }
 
+        stage('Generate Coverage Reports') {
+            steps {
+                script {
+                    if (fileExists('pom.xml')) {
+                        echo 'Generating coverage reports...'
+                        if (isUnix()) {
+                            sh 'mvn jacoco:report'
+                        } else {
+                            bat 'mvn jacoco:report'
+                        }
+                    } else {
+                        error 'pom.xml not found. Aborting.'
+                    }
+                }
+            }
+        }
+
         stage('Build and Package') {
             steps {
                 script {
