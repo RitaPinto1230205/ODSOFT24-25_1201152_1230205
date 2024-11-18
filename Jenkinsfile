@@ -169,25 +169,29 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo 'Publishing Coverage Reports...'
-            publishHTML(target: [
-                reportName: 'Unit Test Coverage',
-                reportDir: 'target/site/jacoco-unit',
-                reportFiles: 'index.html',
-                keepAll: true,
-                alwaysLinkToLastBuild: true,
-                allowMissing: false
-            ])
-            publishHTML(target: [
-                reportName: 'Integration Test Coverage',
-                reportDir: 'target/site/jacoco-integration',
-                reportFiles: 'index.html',
-                keepAll: true,
-                alwaysLinkToLastBuild: true,
-                allowMissing: false
-            ])
-        }
+         stage('Publish Coverage Reports') {
+             steps {
+                 script {
+                     echo 'Publishing Unit Test Coverage...'
+                     publishHTML(target: [
+                         allowMissing: true,
+                         alwaysLinkToLastBuild: true,
+                         keepAll: true,
+                         reportDir: 'target/site/jacoco-unit',
+                         reportFiles: 'index.html',
+                         reportName: 'Unit Test Coverage'
+                     ])
+                     echo 'Publishing Integration Test Coverage...'
+                     publishHTML(target: [
+                         allowMissing: true,
+                         alwaysLinkToLastBuild: true,
+                         keepAll: true,
+                         reportDir: 'target/site/jacoco-integration',
+                         reportFiles: 'index.html',
+                         reportName: 'Integration Test Coverage'
+                     ])
+                 }
+             }
+         }
     }
 }
