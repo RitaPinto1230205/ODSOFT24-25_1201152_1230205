@@ -5,7 +5,6 @@ pipeline {
         GRADLE_VERSION = "7.0"
         NODE_VERSION = "14.17.0"
         PROJECT_DIR = "ODSOFT24-25"
-        JACOCO_REPORT_PATH = 'target/site/jacoco/index.html'
     }
 
     stages {
@@ -66,43 +65,32 @@ pipeline {
             }
         }
 
-      stage('Run Unit Tests and Coverage') {
-          steps {
-              script {
-                  echo 'Running unit tests and generating coverage report...'
-                  if (isUnix()) {
-                      sh 'mvn clean test -Dtest=*.Test jacoco:prepare-agent jacoco:report'
-                  } else {
-                      bat 'mvn clean test -Dtest=*.Test jacoco:prepare-agent jacoco:report'
-                  }
-              }
-          }
-      }
-
-
-        stage('Present Unit Test Coverage') {
+        stage('Run Unit Tests') {
             steps {
                 script {
-                    echo 'Presenting Unit Test Coverage...'
-                    if (fileExists(JACOCO_REPORT_PATH)) {
-                        echo 'Coverage report for unit tests generated:'
-                        echo "See JaCoCo coverage report: ${JACOCO_REPORT_PATH}"
+                    if (fileExists('pom.xml')) {
+                        echo 'Running unit tests...'
+                        if (isUnix()) {
+                            sh 'mvn -Dtest=*Teste test'
+                        } else {
+                            bat 'mvn -Dtest=*Teste test'
+                        }
                     } else {
-                        error 'JaCoCo coverage report not found. Aborting.'
+                        error 'pom.xml not found. Aborting.'
                     }
                 }
             }
         }
 
-        stage('Run Integration Tests') {
+        stage('Integration Tests') {
             steps {
                 script {
                     if (fileExists('pom.xml')) {
                         echo 'Running integration tests...'
                         if (isUnix()) {
-                            sh 'mvn clean verify -Dtest=*IT,*IntegracionTest'
+                            sh 'mvn -Dtest=*IT,*IntegracionTest verify'
                         } else {
-                            bat 'mvn clean verify -Dtest=*IT,*IntegracionTest'
+                            bat 'mvn -Dtest=*IT,*IntegracionTest verify'
                         }
                     } else {
                         error 'pom.xml not found. Aborting.'
@@ -114,11 +102,15 @@ pipeline {
         stage('Run Mutation Tests') {
             steps {
                 script {
-                    echo 'Running mutation tests...'
-                    if (isUnix()) {
-                        sh 'mvn org.pitest:pitest-maven:mutationCoverage'
+                    if (fileExists('pom.xml')) {
+                        echo 'Running mutation tests...'
+                        if (isUnix()) {
+                            sh 'mvn org.pitest:pitest-maven:mutationCoverage'
+                        } else {
+                            bat 'mvn org.pitest:pitest-maven:mutationCoverage'
+                        }
                     } else {
-                        bat 'mvn org.pitest:pitest-maven:mutationCoverage'
+                        error 'pom.xml not found. Aborting.'
                     }
                 }
             }
@@ -157,18 +149,6 @@ pipeline {
                     }
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-        success {
-            echo 'Build completed successfully!'
-        }
-        failure {
-            echo 'Build failed. Please check the logs.'
         }
     }
 }
