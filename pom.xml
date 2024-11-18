@@ -186,33 +186,33 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
                 <executions>
-                    <!-- Para testes unitários -->
+                    <!-- Coverage para Testes Unitários -->
                     <execution>
-                        <id>unit-test-coverage</id>
+                        <id>prepare-agent-ut</id>
                         <phase>test</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
                             <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
-                            <output>file</output>
                         </configuration>
                     </execution>
-                    <!-- Para testes de integração -->
+
+                    <!-- Coverage para Testes de Integração -->
                     <execution>
-                        <id>integration-test-coverage</id>
+                        <id>prepare-agent-it</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
                             <destFile>${project.build.directory}/jacoco-it.exec</destFile>
-                            <output>file</output>
                         </configuration>
                     </execution>
-                    <!-- Relatório unificado -->
+
+                    <!-- Relatório Geral -->
                     <execution>
-                        <id>report</id>
+                        <id>report-ut</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
@@ -222,8 +222,9 @@
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit</outputDirectory>
                         </configuration>
                     </execution>
+
                     <execution>
-                        <id>integration-report</id>
+                        <id>report-it</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
@@ -233,10 +234,11 @@
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-integration</outputDirectory>
                         </configuration>
                     </execution>
-                    </executions>
-                </plugin>
+                </executions>
+            </plugin>
 
-                <plugin>
+
+            <plugin>
                     <groupId>org.pitest</groupId>
                     <artifactId>pitest-maven</artifactId>
                     <version>1.15.3</version>
