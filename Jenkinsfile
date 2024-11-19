@@ -177,7 +177,7 @@ pipeline {
                                alwaysLinkToLastBuild: true,
                                keepAll: true,
                                reportDir: 'target/site/jacoco-unit',
-                               reportFiles: 'index.html',
+                               reportFiles: 'unit_test.html',
                                reportName: 'Unit Test Coverage'
             ])
             publishHTML(target: [
@@ -185,7 +185,7 @@ pipeline {
                                alwaysLinkToLastBuild: true,
                                keepAll: true,
                                reportDir: 'target/site/jacoco-integration',
-                               reportFiles: 'index.html',
+                               reportFiles: 'integration_test.html',
                                reportName: 'Integration Test Coverage'
             ])
         }

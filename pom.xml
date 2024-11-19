@@ -181,38 +181,29 @@
                     </includes>
                 </configuration>
             </plugin>
+
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
                 <executions>
-                    <!-- Coverage para Testes Unitários -->
+                    <!-- Coletar dados de cobertura durante a execução dos testes unitários -->
                     <execution>
-                        <id>prepare-agent-ut</id>
+                        <id>unit-test-coverage</id>
                         <phase>test</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
                             <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+                            <output>file</output>
                         </configuration>
                     </execution>
 
-                    <!-- Coverage para Testes de Integração -->
+                    <!-- Relatório de cobertura unitária -->
                     <execution>
-                        <id>prepare-agent-it</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <destFile>${project.build.directory}/jacoco-it.exec</destFile>
-                        </configuration>
-                    </execution>
-
-                    <!-- Relatório Geral -->
-                    <execution>
-                        <id>report-ut</id>
+                        <id>report</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
@@ -223,8 +214,22 @@
                         </configuration>
                     </execution>
 
+                    <!-- Coletar dados de cobertura durante a execução dos testes de integração -->
                     <execution>
-                        <id>report-it</id>
+                        <id>integration-test-coverage</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-it.exec</destFile>
+                            <output>file</output>
+                        </configuration>
+                    </execution>
+
+                    <!-- Relatório de cobertura de integração -->
+                    <execution>
+                        <id>integration-report</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
@@ -237,63 +242,62 @@
                 </executions>
             </plugin>
 
-
             <plugin>
-                    <groupId>org.pitest</groupId>
-                    <artifactId>pitest-maven</artifactId>
-                    <version>1.15.3</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.pitest</groupId>
-                            <artifactId>pitest-junit5-plugin</artifactId>
-                            <version>1.2.1</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <verbose>true</verbose>
-                        <timestampedReports>false</timestampedReports>
-                        <failWhenNoMutations>false</failWhenNoMutations>
-                        <targetClasses>
-                            <param>pt.psoft.g1.psoftg1.authormanagement.model.*</param>
-                            <param>pt.psoft.g1.psoftg1.bookmanagement.model.*</param>
-                            <param>pt.psoft.g1.psoftg1.shared.model.*</param>
-                            <param>pt.psoft.g1.psoftg1.readermanagement.model.*</param>
-                        </targetClasses>
-                        <targetTests>
-                            <param>pt.psoft.g1.psoftg1.authormanagement.model.*Test</param>
-                            <param>pt.psoft.g1.psoftg1.bookmanagement.model.*Test</param>
-                            <param>pt.psoft.g1.psoftg1.shared.model.*Test</param>
-                            <param>pt.psoft.g1.psoftg1.readermanagement.model.*Test</param>
-                        </targetTests>
-                        <excludedTestClasses>
-                            <param>**/*IntegrationTest.java</param>
-                        </excludedTestClasses>
-                        <mutators>
-                            <param>DEFAULTS</param>
-                        </mutators>
-                        <outputFormats>
-                            <param>HTML</param>
-                            <param>XML</param>
-                        </outputFormats>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>mutation-coverage</id>
-                            <goals>
-                                <goal>mutationCoverage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.4.0</version>
-                    <configuration>
-                        <outputDirectory>${project.build.directory}</outputDirectory>
-                        <warSourceDirectory>${basedir}/webapp</warSourceDirectory>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </build>
-    </project>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.3</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.1</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <verbose>true</verbose>
+                    <timestampedReports>false</timestampedReports>
+                    <failWhenNoMutations>false</failWhenNoMutations>
+                    <targetClasses>
+                        <param>pt.psoft.g1.psoftg1.authormanagement.model.*</param>
+                        <param>pt.psoft.g1.psoftg1.bookmanagement.model.*</param>
+                        <param>pt.psoft.g1.psoftg1.shared.model.*</param>
+                        <param>pt.psoft.g1.psoftg1.readermanagement.model.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>pt.psoft.g1.psoftg1.authormanagement.model.*Test</param>
+                        <param>pt.psoft.g1.psoftg1.bookmanagement.model.*Test</param>
+                        <param>pt.psoft.g1.psoftg1.shared.model.*Test</param>
+                        <param>pt.psoft.g1.psoftg1.readermanagement.model.*Test</param>
+                    </targetTests>
+                    <excludedTestClasses>
+                        <param>**/*IntegrationTest.java</param>
+                    </excludedTestClasses>
+                    <mutators>
+                        <param>DEFAULTS</param>
+                    </mutators>
+                    <outputFormats>
+                        <param>HTML</param>
+                        <param>XML</param>
+                    </outputFormats>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mutation-coverage</id>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <warSourceDirectory>${basedir}/webapp</warSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
