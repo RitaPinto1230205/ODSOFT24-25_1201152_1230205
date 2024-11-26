@@ -65,9 +65,11 @@ pipeline {
             }
         }
 
-        stage('Run Unit Tests') {
-            steps {
-                script {
+stage('Testing and Reports') {
+    steps {
+        script {
+            parallel(
+        'Run Unit Tests' :{
                     if (fileExists('pom.xml')) {
                         echo 'Running unit tests...'
                         if (isUnix()) {
@@ -78,13 +80,9 @@ pipeline {
                     } else {
                         error 'pom.xml not found. Aborting.'
                     }
-                }
-            }
-        }
+                },
+        'Integration Tests': {
 
-        stage('Integration Tests') {
-            steps {
-                script {
                     if (fileExists('pom.xml')) {
                         echo 'Running integration tests...'
                         if (isUnix()) {
@@ -95,13 +93,8 @@ pipeline {
                     } else {
                         error 'pom.xml not found. Aborting.'
                     }
-                }
-            }
-        }
-
-        stage('Run Mutation Tests') {
-            steps {
-                script {
+                },
+        'Run Mutation Tests': {
                     if (fileExists('pom.xml')) {
                         echo 'Running mutation tests...'
                         if (isUnix()) {
@@ -112,13 +105,8 @@ pipeline {
                     } else {
                         error 'pom.xml not found. Aborting.'
                     }
-                }
-            }
-        }
-
-        stage('Generate Coverage Reports') {
-            steps {
-                script {
+                },
+        'Generate Coverage Reports': {
                     if (fileExists('pom.xml')) {
                         echo 'Generating coverage reports...'
                         if (isUnix()) {
@@ -129,6 +117,8 @@ pipeline {
                     } else {
                         error 'pom.xml not found. Aborting.'
                     }
+                }
+                )
                 }
             }
         }
