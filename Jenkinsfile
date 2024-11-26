@@ -64,23 +64,29 @@ pipeline {
                 }
             }
         }
+        stage('Run Unit Tests') {
+            steps {
+                script {
+                            if (fileExists('pom.xml')) {
+                                echo 'Running unit tests...'
+                                if (isUnix()) {
+                                    sh 'mvn -Dtest=*Teste test'
+                                } else {
+                                    bat 'mvn -Dtest=*Teste test'
+                                }
+                            } else {
+                                error 'pom.xml not found. Aborting.'
+                            }
+                }
+            }
+       }
+
 
 stage('Testing and Reports') {
     steps {
         script {
             parallel(
-        'Run Unit Tests' :{
-                    if (fileExists('pom.xml')) {
-                        echo 'Running unit tests...'
-                        if (isUnix()) {
-                            sh 'mvn -Dtest=*Teste test'
-                        } else {
-                            bat 'mvn -Dtest=*Teste test'
-                        }
-                    } else {
-                        error 'pom.xml not found. Aborting.'
-                    }
-                },
+
         'Integration Tests': {
 
                     if (fileExists('pom.xml')) {
