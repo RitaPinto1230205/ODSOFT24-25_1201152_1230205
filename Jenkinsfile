@@ -92,7 +92,7 @@ stage('Testing and Reports') {
                     if (fileExists('pom.xml')) {
                         echo 'Running integration tests...'
                         if (isUnix()) {
-                            sh 'mvn -Dtest=*IT,*IntegracionTest verify'
+                            sh 'mvn -Dtest=**/*IT verify'
                         } else {
                             bat 'mvn -Dtest=*IT,*IntegracionTest verify'
                         }
