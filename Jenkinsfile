@@ -94,7 +94,7 @@ stage('Testing and Reports') {
                         if (isUnix()) {
                             sh 'mvn -Dtest=**/*IT verify'
                         } else {
-                            bat 'mvn -Dtest=*IT,*IntegracionTest verify'
+                               bat 'mvn -Dtest=**/*IT verify'
                         }
                     } else {
                         error 'pom.xml not found. Aborting.'
