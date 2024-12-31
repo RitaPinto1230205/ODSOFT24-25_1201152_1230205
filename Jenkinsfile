@@ -87,19 +87,19 @@ stage('Testing and Reports') {
         script {
             parallel(
 
-        'Integration Tests': {
-
+      'Integration Tests': {
                     if (fileExists('pom.xml')) {
                         echo 'Running integration tests...'
                         if (isUnix()) {
                             sh 'mvn -Dtest=**/*IT verify'
-                        } else {
+                       } else {
                                bat 'mvn -Dtest=**/*IT verify'
                         }
                     } else {
                         error 'pom.xml not found. Aborting.'
                     }
                 },
+
         'Run Mutation Tests': {
                     if (fileExists('pom.xml')) {
                         echo 'Running mutation tests...'
